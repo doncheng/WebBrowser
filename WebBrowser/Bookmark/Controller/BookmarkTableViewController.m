@@ -63,8 +63,18 @@ typedef NS_ENUM(NSUInteger, BookmarkTableState) {
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(closeView)];
+    self.navigationItem.rightBarButtonItem = closeItem;
+    
     [self addToolbarEditBtn];
-    self.title = @"收藏";
+    self.title = @"书签";
+    
+    if (@available(iOS 11.0, *)) {
+        self.navigationController.navigationBar.prefersLargeTitles = YES;
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (void)initData{
@@ -104,6 +114,12 @@ typedef NS_ENUM(NSUInteger, BookmarkTableState) {
         }
         [self addToolbarEditBtn];
     }
+}
+
+- (void)closeView{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark - Handle Gesture
@@ -347,7 +363,7 @@ typedef NS_ENUM(NSUInteger, BookmarkTableState) {
         
         if (model.url.length > 0) {
             [[DelegateManager sharedInstance] performSelector:@selector(browserContainerViewLoadWebViewWithSug:) arguments:@[model.url] key:kDelegateManagerBrowserContainerLoadURL];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
     }
 }

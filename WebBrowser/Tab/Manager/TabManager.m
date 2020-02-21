@@ -184,6 +184,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TabManager)
 
 - (void)saveWebModelToDisk{
     NSUInteger count = _webModelArray.count;
+    //如只有一个元素，并且是首页的话不用保存
+//    if (count == 1) {
+//        WebModel *model = [_webModelArray objectAtIndex:0];
+//        if ([model.url isEqualToString:DEFAULT_CARD_CELL_URL]) {
+//            return;
+//        }
+//    }
     [_webModelArray enumerateObjectsUsingBlock:^(WebModel *model, NSUInteger idx, BOOL *stop){
         BrowserWebView *webView = model.webView;
         
@@ -292,7 +299,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TabManager)
         if (!curModel.webView) {
             dispatch_main_safe_async(^{
                 browserWebView = [BrowserWebView new];
-                browserWebView.scrollView.contentInset = UIEdgeInsetsMake(TOP_TOOL_BAR_HEIGHT, 0, BOTTOM_TOOL_BAR_HEIGHT, 0);
+                //browserWebView.scrollView.contentInset = UIEdgeInsetsMake(TOP_TOOL_BAR_HEIGHT, 0, BOTTOM_TOOL_BAR_HEIGHT, 0);
                 browserWebView.scrollView.delegate = BrowserVC;
                 
                 dispatch_async(self_.synchQueue, ^{
@@ -576,10 +583,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TabManager)
 
 #pragma mark - BrowserWebViewDelegate Method
 
-//当解析完head标签后注入无图模式js,需要注意的是，当启用无图模式时，UIWebView依然会进行图片网络请求,只是设置visible为false
+//当解析完head标签后注入无图模式js,需要注意的是，当启用无图模式时，WebView依然会进行图片网络请求,只是设置visible为false
 - (void)webView:(BrowserWebView *)webView gotTitleName:(NSString*)titleName{
     [ExtentionsManager loadExtentionsIfNeededWhenGotTitleWithWebView:webView];
     [[HistorySQLiteManager sharedInstance] insertOrUpdateHistoryWithURL:webView.mainFURL title:titleName];
+    NSString *js = [NSString stringWithFormat:@"var a = document.getElementsByTagName('link');for(var i=0;i<a.length;i++){if(a[i].getAttribute('rel').indexOf('apple-touch-icon') != -1){a[i].getAttribute('href');break;}}"];
+    NSString *url = webView.mainFURL;
+    [webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        if ([result isKindOfClass:[NSString class]]) {
+            NSString *resultStr = result;
+            DDLogDebug(@"meta%@",result);
+            if ([resultStr hasPrefix:@"//"]) {
+                resultStr = [NSString stringWithFormat:@"http:%@",result];
+            }
+            [[HistorySQLiteManager sharedInstance] updateIconUrlWithIconUrl:resultStr url:url];
+        }
+    }];
 }
 
 - (void)webView:(BrowserWebView *)webView didFailLoadWithError:(NSError *)error{
@@ -655,19 +674,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TabManager)
 #pragma mark - SSL Error Handler
 
 - (void)handleSSLUntrustedWithWebView:(BrowserWebView *)webView{
-    UIAlertController *accessDenied = [UIAlertController alertControllerWithTitle:@"您的连接不是私密连接" message:[NSString stringWithFormat:@"攻击者可能会试图从 %@ 窃取您的信息（例如：密码、通讯内容或信用卡信息）。",webView.request.URL.host] preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    UIAlertAction *dismissAction = [UIAlertAction actionDismiss];
-    [accessDenied addAction:dismissAction];
-    
-    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"继续前往（不安全）" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-        URLConnectionDelegateProxy *proxy __attribute__((unused)) = [[URLConnectionDelegateProxy alloc] initWithURL:webView.request.URL success:^{
-            [webView reload];
-        } failure:nil];
-    }];
-    [accessDenied addAction:continueAction];
-    
-    [BrowserVC presentViewController:accessDenied animated:YES completion:nil];
+//    UIAlertController *accessDenied = [UIAlertController alertControllerWithTitle:@"您的连接不是私密连接" message:[NSString stringWithFormat:@"攻击者可能会试图从 %@ 窃取您的信息（例如：密码、通讯内容或信用卡信息）。",webView.request.URL.host] preferredStyle:UIAlertControllerStyleActionSheet];
+//    
+//    UIAlertAction *dismissAction = [UIAlertAction actionDismiss];
+//    [accessDenied addAction:dismissAction];
+//    
+//    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:@"继续前往（不安全）" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+//        URLConnectionDelegateProxy *proxy __attribute__((unused)) = [[URLConnectionDelegateProxy alloc] initWithURL:webView.request.URL success:^{
+//            [webView reload];
+//        } failure:nil];
+//    }];
+//    [accessDenied addAction:continueAction];
+//    
+//    [BrowserVC presentViewController:accessDenied animated:YES completion:nil];
     
 }
 

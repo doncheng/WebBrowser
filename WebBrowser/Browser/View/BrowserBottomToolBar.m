@@ -56,7 +56,7 @@
 
     UIBarButtonItem *flexibleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    [self setItems:@[flexibleItem,refreshOrStopItem,flexibleItem,multiWindowItem,flexibleItem,backItem,flexibleItem,forwardItem,flexibleItem,settingItem,flexibleItem] animated:NO];
+    [self setItems:@[flexibleItem,multiWindowItem,flexibleItem,refreshOrStopItem,flexibleItem,backItem,flexibleItem,forwardItem,flexibleItem,settingItem,flexibleItem] animated:NO];
 }
 
 - (UIBarButtonItem *)createBottomToolBarButtonWithImage:(NSString *)imageName tag:(NSInteger)tag{
@@ -129,7 +129,7 @@
     }
 }
 
-- (BOOL)webView:(BrowserWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+- (BOOL)webView:(BrowserWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKNavigationType)navigationType {
     if (IsCurrentWebView(webView)) {
         [self updateForwardBackItem];
     }

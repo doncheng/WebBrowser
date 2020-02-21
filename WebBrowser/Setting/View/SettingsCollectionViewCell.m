@@ -25,7 +25,7 @@
         [self.contentView addSubview:self.imageView];
         self.backgroundColor = [UIColor clearColor];
         self.imageView.image = nil;
-        self.selectedBackgroundView = [UIView new];
+        //self.selectedBackgroundView = [UIView new];
         [self addConstraints];
     }
     return self;
@@ -43,7 +43,7 @@
     [super tintColorDidChange];
     self.textLabel.textColor = self.tintColor;
     self.selectedBackgroundView.backgroundColor = self.tintColor;
-    self.textLabel.highlightedTextColor = [self inversedTintColor];
+    self.textLabel.highlightedTextColor = [UIColor lightGrayColor];//[self inversedTintColor];
 }
 
 - (void)setSelected:(BOOL)selected

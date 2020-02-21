@@ -26,6 +26,10 @@
 #import "NSURL+ZWUtility.h"
 #import "ExtentionsTableViewController.h"
 
+#import <UMShare/UMShare.h>
+#import <UShareUI/UShareUI.h>
+#import <UMAnalytics/MobClick.h>
+
 static NSString *const kBrowserViewControllerAddBookmarkSuccess = @"添加书签成功";
 static NSString *const kBrowserViewControllerAddBookmarkFailure = @"添加书签失败";
 
@@ -69,8 +73,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.navigationItem setBackBarButtonItem:backItem];
     
+    CGFloat yOrigin = 0;
+    if (K_Is_IphoneX) {
+        yOrigin = 24;
+        UIView *gapView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, yOrigin)];
+        gapView.backgroundColor = UIColorFromRGB(0xF8F8F8);
+        [self.view addSubview:gapView];
+    }
+    
     self.browserContainerView = ({
-        BrowserContainerView *browserContainerView = [[BrowserContainerView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height)];
+        BrowserContainerView *browserContainerView = [[BrowserContainerView alloc] initWithFrame:CGRectMake(0, TOP_TOOL_BAR_HEIGHT/2+yOrigin/2, self.view.width, self.view.height-TOP_TOOL_BAR_HEIGHT-yOrigin)];
         [self.view addSubview:browserContainerView];
         
         self.browserButtonDelegate = browserContainerView;
@@ -79,24 +91,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
     });
     
     self.browserTopToolBar = ({
-        CGFloat yOrigin = 0;
-        if ([ZWUtility isIphoneX]) {
-            yOrigin = 24;
-            UIView *gapView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, yOrigin)];
-            gapView.backgroundColor = UIColorFromRGB(0xF8F8F8);
-            [self.view addSubview:gapView];
-        }
+
         
         BrowserTopToolBar *browserTopToolBar = [[BrowserTopToolBar alloc] initWithFrame:CGRectMake(0, yOrigin, self.view.width, TOP_TOOL_BAR_HEIGHT)];
         [self.view addSubview:browserTopToolBar];
         
-        browserTopToolBar.backgroundColor = UIColorFromRGB(0xF8F8F8);
         
+        //browserTopToolBar.backgroundColor = UIColorFromRGBAndAlpha(0xF8F8F8,0.5f);
         browserTopToolBar;
     });
     
+    
     self.bottomToolBar = ({
-        BrowserBottomToolBar *toolBar = [[BrowserBottomToolBar alloc] initWithFrame:CGRectMake(0, self.view.height - BOTTOM_TOOL_BAR_HEIGHT, self.view.width, BOTTOM_TOOL_BAR_HEIGHT)];
+        BrowserBottomToolBar *toolBar = [[BrowserBottomToolBar alloc] initWithFrame:CGRectMake(0, self.view.height - BOTTOM_TOOL_BAR_HEIGHT-yOrigin, self.view.width, BOTTOM_TOOL_BAR_HEIGHT)];
         [self.view addSubview:toolBar];
         
         toolBar.browserButtonDelegate = self;
@@ -120,7 +127,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
     //点击新链接或返回时，scrollView会调用该方法
     if (!(!scrollView.decelerating && !scrollView.dragging && !scrollView.tracking)) {
         CGFloat yOffset = scrollView.contentOffset.y - self.lastContentOffset;
-        
+
         if (self.lastContentOffset > scrollView.contentOffset.y) {
             if (_isWebViewDecelerate || (scrollView.contentOffset.y >= -TOP_TOOL_BAR_HEIGHT && scrollView.contentOffset.y <= 0)) {
                 //浮点数不能做精确匹配，不过此处用等于满足我的需求
@@ -138,7 +145,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
             self.webViewScrollDirection = ScrollDirectionUp;
         }
     }
-    
+
     self.lastContentOffset = scrollView.contentOffset.y;
     
 }
@@ -147,9 +154,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
     [UIView animateWithDuration:.2 animations:^{
         self.browserTopToolBar.height = TOP_TOOL_BAR_HEIGHT;
         CGRect bottomRect = self.bottomToolBar.frame;
-        bottomRect.origin.y = self.view.height - BOTTOM_TOOL_BAR_HEIGHT;
+        bottomRect.origin.y = self.view.height - BOTTOM_TOOL_BAR_HEIGHT-K_SAVEAREA_TOP;
         self.bottomToolBar.frame = bottomRect;
-        self.browserContainerView.scrollView.contentInset = UIEdgeInsetsMake(TOP_TOOL_BAR_HEIGHT, 0, BOTTOM_TOOL_BAR_HEIGHT, 0);
+        //self.browserContainerView.scrollView.contentInset = UIEdgeInsetsMake(TOP_TOOL_BAR_HEIGHT, 0, BOTTOM_TOOL_BAR_HEIGHT, 0);
     }];
 }
 
@@ -165,30 +172,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
 
 - (void)handleToolBarWithOffset:(CGFloat)offset{
     CGRect bottomRect = self.bottomToolBar.frame;
+    CGFloat yOrigin = 0;
+    if (K_Is_IphoneX) {
+        yOrigin = 24;
+    }
     //缩小toolbar
     if (offset > 0) {
         if (self.browserTopToolBar.height - offset <= TOP_TOOL_BAR_THRESHOLD) {
             self.browserTopToolBar.height = TOP_TOOL_BAR_THRESHOLD;
-            self.browserContainerView.scrollView.contentInset = UIEdgeInsetsMake(TOP_TOOL_BAR_THRESHOLD, 0, 0, 0);
+            //self.browserContainerView.scrollView.contentInset = UIEdgeInsetsMake(TOP_TOOL_BAR_THRESHOLD, 0, 0, 0);
 
-            bottomRect.origin.y = self.view.height;
+            bottomRect.origin.y = self.view.height+yOrigin;
         }
         else
         {
             self.browserTopToolBar.height -= offset;
             CGFloat bottomRectYoffset = BOTTOM_TOOL_BAR_HEIGHT * offset / (TOP_TOOL_BAR_HEIGHT - TOP_TOOL_BAR_THRESHOLD);
-            bottomRect.origin.y += bottomRectYoffset;
+            //bottomRect.origin.y += bottomRectYoffset;
             UIEdgeInsets insets = self.browserContainerView.scrollView.contentInset;
             insets.top -= offset;
             insets.bottom -= bottomRectYoffset;
-            self.browserContainerView.scrollView.contentInset = insets;
+            //self.browserContainerView.scrollView.contentInset = insets;
         }
     }
     else{
         if (self.browserTopToolBar.height + (-offset) >= TOP_TOOL_BAR_HEIGHT) {
             self.browserTopToolBar.height = TOP_TOOL_BAR_HEIGHT;
-            bottomRect.origin.y = self.view.height - BOTTOM_TOOL_BAR_HEIGHT;
-            self.browserContainerView.scrollView.contentInset = UIEdgeInsetsMake(TOP_TOOL_BAR_HEIGHT, 0, BOTTOM_TOOL_BAR_HEIGHT, 0);
+            bottomRect.origin.y = self.view.height - BOTTOM_TOOL_BAR_HEIGHT-yOrigin;
+            //self.browserContainerView.scrollView.contentInset = UIEdgeInsetsMake(TOP_TOOL_BAR_HEIGHT, 0, BOTTOM_TOOL_BAR_HEIGHT, 0);
         }
         else
         {
@@ -198,7 +209,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
             UIEdgeInsets insets = self.browserContainerView.scrollView.contentInset;
             insets.top += (-offset);
             insets.bottom += bottomRectYoffset;
-            self.browserContainerView.scrollView.contentInset = insets;
+            //self.browserContainerView.scrollView.contentInset = insets;
         }
     }
     
@@ -216,41 +227,71 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
         WEAK_REF(self)
         NSArray<SettingsMenuItem *> *items =
         @[
-          [SettingsMenuItem itemWithText:@"扩展" image:[UIImage imageNamed:@"album"] action:^{
-              [self_ pushTableViewControllerWithControllerName:[ExtentionsTableViewController class] style:UITableViewStyleGrouped];
-          }],
-          [SettingsMenuItem itemWithText:@"加入书签" image:[UIImage imageNamed:@"album"] action:^{
+//          [SettingsMenuItem itemWithText:@"设置" image:[UIImage imageNamed:@"album"] action:^{
+//              //[self_ pushTableViewControllerWithControllerName:[ExtentionsTableViewController class] style:UITableViewStyleGrouped];
+//              ExtentionsTableViewController *extentionsTableViewController = [[ExtentionsTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+//
+//               [self_ presentViewController:[[UINavigationController alloc] initWithRootViewController:extentionsTableViewController] animated:YES completion:^{
+//
+//               }];
+//          }],
+            [SettingsMenuItem itemWithText:@"历史记录" image:[UIImage imageNamed:@"more_history"] action:^{
+                //[self_ pushTableViewControllerWithControllerName:[HistoryTableViewController class] style:UITableViewStylePlain];
+                HistoryTableViewController *historyTableViewController = [[HistoryTableViewController alloc] init];
+                
+                [self_ presentViewController:[[UINavigationController alloc] initWithRootViewController:historyTableViewController] animated:YES completion:^{
+                    
+                }];
+            }],
+            [SettingsMenuItem itemWithText:@"书签" image:[UIImage imageNamed:@"more_favorites"] action:^{
+                //[self_ pushTableViewControllerWithControllerName:[BookmarkTableViewController class] style:UITableViewStylePlain];
+                BookmarkTableViewController *bookmarkTableViewController = [[BookmarkTableViewController alloc] init];
+                
+                [self_ presentViewController:[[UINavigationController alloc] initWithRootViewController:bookmarkTableViewController] animated:YES completion:^{
+                    
+                }];
+            }],
+          [SettingsMenuItem itemWithText:@"加入书签" image:[UIImage imageNamed:@"more_add"] action:^{
               [self_ addBookmark];
           }],
-          [SettingsMenuItem itemWithText:@"书签" image:[UIImage imageNamed:@"album"] action:^{
-              [self_ pushTableViewControllerWithControllerName:[BookmarkTableViewController class] style:UITableViewStylePlain];
-          }],
-          [SettingsMenuItem itemWithText:@"历史" image:[UIImage imageNamed:@"album"] action:^{
-              [self_ pushTableViewControllerWithControllerName:[HistoryTableViewController class] style:UITableViewStylePlain];
-          }],
-          [SettingsMenuItem itemWithText:@"设置" image:[UIImage imageNamed:@"album"] action:^{
-              [self_ pushTableViewControllerWithControllerName:[SettingsTableViewController class] style:UITableViewStylePlain];
-          }],
-          [SettingsMenuItem itemWithText:@"拷贝连接" image:[UIImage imageNamed:@"album"] action:^{
+
+
+
+          [SettingsMenuItem itemWithText:@"拷贝链接" image:[UIImage imageNamed:@"more_link"] action:^{
               [self_ handleCopyURLButtonClicked];
+          }],
+        [SettingsMenuItem itemWithText:@"分享" image:[UIImage imageNamed:@"more_share"] action:^{
+                [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+                 // 根据获取的platformType确定所选平台进行下一步操作
+                [self shareWebPageToPlatformType:platformType];
+                }];
+            }],
+          [SettingsMenuItem itemWithText:@"设置" image:[UIImage imageNamed:@"more_settings"] action:^{
+              //[self_ pushTableViewControllerWithControllerName:[SettingsTableViewController class] style:UITableViewStylePlain];
+              ExtentionsTableViewController *extentionsTableViewController = [[ExtentionsTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+               
+               [self_ presentViewController:[[UINavigationController alloc] initWithRootViewController:extentionsTableViewController] animated:YES completion:^{
+                   
+               }];
           }]
           ];
         
         [SettingsViewController presentFromViewController:self withItems:items completion:nil];
     }
     if (tag == BottomToolBarMultiWindowButtonTag) {
-        CardMainView *cardMainView = [[CardMainView alloc] initWithFrame:self.view.bounds];
-        [cardMainView reloadCardMainViewWithCompletionBlock:^{
-            UIImage *image = [self.view snapshot];
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-            imageView.frame = cardMainView.bounds;
-            [cardMainView addSubview:imageView];
-            [self.view addSubview:cardMainView];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [imageView removeFromSuperview];
-                [cardMainView changeCollectionViewLayout];
-            });
-        }];
+//        CardMainView *cardMainView = [[CardMainView alloc] initWithFrame:self.view.bounds];
+//        [cardMainView reloadCardMainViewWithCompletionBlock:^{
+//            UIImage *image = [self.view snapshot];
+//            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+//            imageView.frame = cardMainView.bounds;
+//            [cardMainView addSubview:imageView];
+//            [self.view addSubview:cardMainView];
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [imageView removeFromSuperview];
+//                [cardMainView changeCollectionViewLayout];
+//            });
+//        }];
+        [self.browserContainerView openHomePage];
     }
 }
 
@@ -295,6 +336,42 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:editVC];
     
     [self presentViewController:navigationVC animated:YES completion:nil];
+}
+
+- (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType
+{
+    //创建分享消息对象
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    
+    //创建网页内容对象
+    NSString* thumbURL =  @"https://is2-ssl.mzstatic.com/image/thumb/Purple7/v4/fa/ce/0f/face0ff0-db74-a532-372d-c622005a8bca/mzl.pjzndjxt.jpg/230x0w.jpg";
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.browserContainerView.webView.mainFTitle descr:@"" thumImage:thumbURL];
+    if (platformType == UMSocialPlatformType_WechatTimeLine) {
+        shareObject.title = self.browserContainerView.webView.mainFTitle;
+    }
+    //设置网页地址
+    shareObject.webpageUrl = self.browserContainerView.webView.mainFURL;
+    
+    //分享消息对象设置分享内容对象
+    messageObject.shareObject = shareObject;
+    
+    //调用分享接口
+    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        if (error) {
+            UMSocialLogInfo(@"************Share fail with error %@*********",error);
+        }else{
+            if ([data isKindOfClass:[UMSocialShareResponse class]]) {
+                UMSocialShareResponse *resp = data;
+                //分享结果消息
+                UMSocialLogInfo(@"response message is %@",resp.message);
+                //第三方原始返回的数据
+                UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
+                
+            }else{
+                UMSocialLogInfo(@"response data is %@",data);
+            }
+        }
+    }];
 }
 
 #pragma mark - Preseving and Restoring State

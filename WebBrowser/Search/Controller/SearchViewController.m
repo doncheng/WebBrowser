@@ -13,8 +13,9 @@
 #import "SearchTableViewCell.h"
 #import "HttpHelper.h"
 #import "KeyboardHelper.h"
+#import "HistorySQLiteManager.h"
 
-#define SEARCH_INPUTVIEW_HEIGHT 76
+#define SEARCH_INPUTVIEW_HEIGHT 94
 
 static NSString * const CELL = @"CELL";
 
@@ -54,6 +55,12 @@ static NSString * const CELL = @"CELL";
         inputView;
     });
     
+    [self.searchInputView addSubview:({
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 1)];
+        lineView.backgroundColor = UIColorFromRGB(0xeeeeee);
+        lineView;
+    })];
+    
     self.tableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         [self.view addSubview:tableView];
@@ -80,6 +87,13 @@ static NSString * const CELL = @"CELL";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.searchInputView.textField becomeFirstResponder];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.searchInputView.textField.text.length == 0) {
+        [self getKeywordsData];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -122,7 +136,23 @@ static NSString * const CELL = @"CELL";
     }
     else{
         self.searchInputView.slider.enabled = NO;
+        [self getKeywordsData];
     }
+}
+
+- (void)getKeywordsData{
+    WEAK_REF(self)
+    [[HistorySQLiteManager sharedInstance] getKeywordsDataByLimit:50 offset:0 handler:^(NSMutableArray<KeywordItemModel *> *array) {
+        STRONG_REF(self_)
+        if (self__) {
+            NSMutableArray *searchArr = [[NSMutableArray alloc] init];
+            for (KeywordItemModel *keywordItemModel in array) {
+                [searchArr addObject:keywordItemModel.title];
+            }
+            self__.searchResultArray = searchArr;
+            [self__.tableView reloadData];
+        }
+    }];
 }
 
 #pragma mark - KeyboardHelperDelegate

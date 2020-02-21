@@ -9,19 +9,16 @@
 #import "BrowserTopToolBar.h"
 #import "TopToolBarShapeView.h"
 #import "BrowserHeader.h"
-#import "NJKWebViewProgressView.h"
 #import "DelegateManager+WebViewDelegate.h"
 #import "TabManager.h"
 
 #define SHAPE_VIEW_WIDTH 30
-#define SHAPE_VIEW_HEIGHT 44
-#define SHAPE_VIEW_Y_OFFSET 5
+#define SHAPE_VIEW_HEIGHT 36
+#define SHAPE_VIEW_Y_OFFSET 8
 
 @interface BrowserTopToolBar () <BrowserWebViewDelegate>
 
 @property (nonatomic, strong) TopToolBarShapeView *shapeView;
-@property (nonatomic, strong) NJKWebViewProgressView *progressView;
-@property (nonatomic, strong) NJKWebViewProgress *progressProxy;
 @property (nonatomic, strong) UIButton *expandButton;
 
 @end
@@ -51,6 +48,7 @@
         shapeView.shapeLayer.path = path.CGPath;
         
         [self addSubview:shapeView];
+        shapeView.hidden = YES;
         shapeView;
     });
     
@@ -66,40 +64,38 @@
         expandButton;
     });
     
-    self.progressView = ({
-        CGFloat progressBarHeight = 2.f;
-        NJKWebViewProgressView *progressView = [[NJKWebViewProgressView alloc] initWithFrame:CGRectMake(0, self.height - progressBarHeight, self.width, progressBarHeight)];
-        [self addSubview:progressView];
-        
-        progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        
-        progressView;
-    });
-    
-    self.progressProxy = ({
-        NJKWebViewProgress *progressProxy = [NJKWebViewProgress new];
-        
-        progressProxy.progressDelegate = self;
-        
-        progressProxy;
-    });
 }
 
 - (void)setFrame:(CGRect)frame{
     if (frame.size.height != self.height) {
-        CGFloat shapeViewHeight = fabs(frame.size.height * (TOP_TOOL_BAR_HEIGHT - SHAPE_VIEW_HEIGHT) / TOP_TOOL_BAR_HEIGHT);
-        self.shapeView.center = (CGPoint){frame.size.width/2, frame.size.height/2 + SHAPE_VIEW_Y_OFFSET};
-        
-        self.shapeView.transform = CGAffineTransformMakeScale(shapeViewHeight / (TOP_TOOL_BAR_HEIGHT - SHAPE_VIEW_HEIGHT), shapeViewHeight / (TOP_TOOL_BAR_HEIGHT - SHAPE_VIEW_HEIGHT));
-        self.expandButton.center = CGPointMake(frame.size.width - 30, frame.size.height / 2 + SHAPE_VIEW_Y_OFFSET);
+//        CGFloat shapeViewHeight = fabs(frame.size.height * (TOP_TOOL_BAR_HEIGHT - SHAPE_VIEW_HEIGHT) / TOP_TOOL_BAR_HEIGHT);
+//        self.shapeView.center = (CGPoint){frame.size.width/2, frame.size.height/2 + SHAPE_VIEW_Y_OFFSET};
+//        
+//        self.shapeView.transform = CGAffineTransformMakeScale(shapeViewHeight / (TOP_TOOL_BAR_HEIGHT - SHAPE_VIEW_HEIGHT), shapeViewHeight / (TOP_TOOL_BAR_HEIGHT - SHAPE_VIEW_HEIGHT));
+        self.expandButton.center = CGPointMake(frame.size.width/2-9, frame.size.height + SHAPE_VIEW_Y_OFFSET+11);
     }
-    self.expandButton.hidden = (frame.size.height != TOP_TOOL_BAR_THRESHOLD);
+    //self.expandButton.hidden = (frame.size.height != TOP_TOOL_BAR_THRESHOLD);
     
     [super setFrame:frame];
 }
 
 - (void)setTopURLOrTitle:(NSString *)urlOrTitle{
+    if ([urlOrTitle containsString:@"-"]) {
+        NSArray *urlOrTitles = [urlOrTitle componentsSeparatedByString:@"-"];
+        if (urlOrTitles.count > 0) {
+            [self.shapeView setTopURLOrTitle:[urlOrTitles objectAtIndex:0]];
+            return;
+        }
+    }
+    if ([urlOrTitle containsString:@"—"]) {
+        NSArray *urlOrTitles = [urlOrTitle componentsSeparatedByString:@"—"];
+        if (urlOrTitles.count > 0) {
+            [self.shapeView setTopURLOrTitle:[urlOrTitles objectAtIndex:0]];
+            return;
+        }
+    }
     [self.shapeView setTopURLOrTitle:urlOrTitle];
+    //self.shapeView.hidden = YES;
 }
 
 #pragma mark - BrowserWebViewDelegate
@@ -110,43 +106,40 @@
     }
 }
 
-- (BOOL)webView:(BrowserWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if (IsCurrentWebView(webView) && [self.progressProxy respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
-        return [self.progressProxy webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
-    }
+- (void)webView:(BrowserWebView *)webView hideTopToolBar:(id)isHidden{
+    self.shapeView.hidden = [isHidden boolValue];
+}
+
+- (BOOL)webView:(BrowserWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKNavigationType)navigationType {
+//    if (IsCurrentWebView(webView) && [self.progressProxy respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
+//        return [self.progressProxy webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+//    }
 
     return YES;
 }
 
 - (void)webViewDidFinishLoad:(BrowserWebView *)webView{
-    if (IsCurrentWebView(webView) && [self.progressProxy respondsToSelector:@selector(webViewDidFinishLoad:)]) {
-        [self.progressProxy webViewDidFinishLoad:webView];
-    }
+//    if (IsCurrentWebView(webView) && [self.progressProxy respondsToSelector:@selector(webViewDidFinishLoad:)]) {
+//        [self.progressProxy webViewDidFinishLoad:webView];
+//    }
 }
 
 - (void)webViewDidStartLoad:(BrowserWebView *)webView{
-    if (IsCurrentWebView(webView) && [self.progressProxy respondsToSelector:@selector(webViewDidStartLoad:)]) {
-        [self.progressProxy webViewDidFinishLoad:webView];
-    }
+//    if (IsCurrentWebView(webView) && [self.progressProxy respondsToSelector:@selector(webViewDidStartLoad:)]) {
+//        [self.progressProxy webViewDidFinishLoad:webView];
+//    }
 }
 
 - (void)webView:(BrowserWebView *)webView didFailLoadWithError:(NSError *)error{
-    if (IsCurrentWebView(webView) && [self.progressProxy respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
-        [self.progressProxy webView:webView didFailLoadWithError:error];
-    }
+//    if (IsCurrentWebView(webView) && [self.progressProxy respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
+//        [self.progressProxy webView:webView didFailLoadWithError:error];
+//    }
 }
 
 #pragma mark - Expand Button Handler
 
 - (void)handleExpandBtnClicked:(UIButton *)btn{
     [Notifier postNotification:[NSNotification notificationWithName:kExpandHomeToolBarNotification object:nil]];
-}
-
-#pragma mark - NJKWebViewProgressDelegate
-
--(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
-{
-    [_progressView setProgress:progress animated:YES];
 }
 
 #pragma mark - kWebTabSwitch notification handler

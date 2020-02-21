@@ -27,6 +27,7 @@ extern NSString *const kDelegateManagerFindInPageBarDelegate;
 - (void)webViewForMainFrameDidFinishLoad:(BrowserWebView *)webView;
 - (void)webView:(BrowserWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
 
+- (void)webView:(BrowserWebView *)webView hideTopToolBar:(id)isHidden;
 @end
 
 

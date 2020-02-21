@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, BottomToolBarButtonTag) {
 #define TOOLBAR_BUTTON_REFRESH_STRING @"menu_refresh_normal"
 #define TOOLBAR_BUTTON_STOP_STRING @"toolbar_stop_normal"
 #define TOOLBAR_BUTTON_MORE_STRING @"toolbar_more_normal"
-#define TOOLBAR_BUTTON_MULTIWINDOW_STRING @"toolbar_multiwindow_normal"
+#define TOOLBAR_BUTTON_MULTIWINDOW_STRING @"toolbar_home"
 
 @protocol BrowserBottomToolBarButtonClickedDelegate <NSObject>
 

@@ -14,10 +14,24 @@ static NSString *const kHistorySQLiteName = @"history.db";
 
 @implementation HistoryItemModel
 
-+ (HistoryItemModel *)historyItemWithHourMinute:(NSString *)hourMinute url:(NSString *)url title:(NSString *)title time:(NSString *)time{
++ (HistoryItemModel *)historyItemWithHourMinute:(NSString *)hourMinute url:(NSString *)url title:(NSString *)title iconUrl:(NSString *)iconUrl time:(NSString *)time{
     HistoryItemModel *item = [HistoryItemModel new];
     item.hourMinute = hourMinute;
     item.url = url;
+    item.title = title;
+    item.iconUrl = iconUrl;
+    item.time = time;
+    
+    return item;
+}
+
+@end
+
+@implementation KeywordItemModel
+
++ (KeywordItemModel *)keywordItemWithHourMinute:(NSString *)hourMinute title:(NSString *)title time:(NSString *)time{
+    KeywordItemModel *item = [KeywordItemModel new];
+    item.hourMinute = hourMinute;
     item.title = title;
     item.time = time;
     
@@ -41,6 +55,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HistorySQLiteManager)
         [db beginDeferredTransaction];
         [db executeZWUpdate:ZW_SQL_CREATE_HISTORY_TABLE];
         [db executeZWUpdate:ZW_SQL_CREATE_HISTORY_INDEX_TABLE];
+        [db executeZWUpdate:KK_SQL_CREATE_KEYWORDS_TABLE];
         [db commit];
     }));
 }
@@ -49,14 +64,57 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HistorySQLiteManager)
     if (!url || url.length == 0) {
         return ;
     }
+    if ([url hasPrefix:@"http://localhost"]||[url isEqualToString:DEFAULT_CARD_CELL_URL]) {
+        return;
+    }
+
     DateModel *dateModel = [NSDate currentDateModel];
-    
+
+    WEAK_REF(self)
+    HistoryItemModel *model = [[HistoryItemModel alloc] init];
+    model.url = url;
+    model.time = dateModel.dateString;
+    [self deleteHistoryRecordWithModel:model completion:^(BOOL success){
+        STRONG_REF(self_)
+        if (self__ && success) {
+            DDLogDebug(@"deleteHistory success");
+        }else{
+            DDLogDebug(@"deleteHistory fail");
+        }
+    }];
+
     ZW_IN_DATABASE(db, ({
         [db executeZWUpdate:ZW_SQL_INSERT_OR_IGNORE_HISTORY withArgumentsInArray:[self getHistoryInsertArrayWithURL:url title:title dateModel:dateModel]];
     }));
 }
 
-- (NSArray *)getHistoryInsertArrayWithURL:(NSString *)url title:(NSString *)title dateModel:(DateModel *)dateModel{
+- (void)insertOrUpdateKeywordWithTitle:(NSString *)title{
+    if (!title || title.length == 0) {
+        return ;
+    }
+    DateModel *dateModel = [NSDate currentDateModel];
+    
+    ZW_IN_DATABASE(db, ({
+        [db executeZWUpdate:KK_SQL_INSERT_OR_IGNORE_KEYWORDS withArgumentsInArray:@[
+        title,
+        dateModel.hourMinute,
+        dateModel.dateString
+        ]];
+    }));
+}
+
+- (void)updateIconUrlWithIconUrl:(NSString *)iconUrl url:(NSString *)url{
+    if (!iconUrl || iconUrl.length == 0) {
+        return ;
+    }
+    ZW_IN_DATABASE(db, ({
+        [db executeZWUpdate:KK_SQL_UPDATE_HISTORY_ICON withArgumentsInArray:@[
+        iconUrl,url
+        ]];
+    }));
+}
+
+- (NSArray *)getHistoryInsertArrayWithURL:(NSString *)url title:(NSString *)title  dateModel:(DateModel *)dateModel{
     title = (!title || title.length == 0) ? @"..." : title;
     return @[
              url,
@@ -73,6 +131,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HistorySQLiteManager)
     ZW_IN_DATABASE(db, ({
         FMResultSet *resultSet = [db executeZWQuery:ZW_SQL_SELECT_HISTORY withArgumentsInArray:@[@(limit), @(offset)]];
         NSMutableArray *array = [self getHistoryResultWithDBResultSet:resultSet];
+        
+        dispatch_main_safe_async(^{
+            handler(array);
+        })
+    }));
+}
+
+- (void)getLastHistoryDataByLimit:(NSInteger)limit handler:(HistoryCompletionHandler)handler{
+    if (!handler) {
+        return;
+    }
+    ZW_IN_DATABASE(db, ({
+        FMResultSet *resultSet = [db executeZWQuery:KK_SQL_SELECT_LAST_HISTORY withArgumentsInArray:@[@(limit)]];
+        
+        NSMutableArray *array = [self getHistoryResultWithDBResultSet:resultSet];
+        
+        dispatch_main_safe_async(^{
+            handler(array);
+        })
+    }));
+}
+
+- (void)getKeywordsDataByLimit:(NSInteger)limit offset:(NSInteger)offset handler:(KeywordsCompletionHandler)handler{
+    if (!handler) {
+        return;
+    }
+    ZW_IN_DATABASE(db, ({
+        FMResultSet *resultSet = [db executeZWQuery:KK_SQL_SELECT_KEYWORDS withArgumentsInArray:@[@(limit), @(offset)]];
+        NSMutableArray *array = [self getKeywordsResultWithDBResultSet:resultSet];
         
         dispatch_main_safe_async(^{
             handler(array);
@@ -107,8 +194,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HistorySQLiteManager)
             NSString *title = [resultSet stringForColumn:ZW_FIELD_TITLE];
             NSString *hourMinute = [resultSet stringForColumn:ZW_FIELD_HOUR_MINUTE];
             NSString *date = [resultSet stringForColumn:ZW_FIELD_TIME];
+            NSString *iconUrl = [resultSet stringForColumn:KK_FIELD_ICON_URL];
+            HistoryItemModel *model = [HistoryItemModel historyItemWithHourMinute:hourMinute url:url title:title iconUrl:iconUrl time:date];
+            [array addObject:model];
+        }
+    }
+    
+    return array;
+}
+
+- (NSMutableArray<KeywordItemModel *> *)getKeywordsResultWithDBResultSet:(FMResultSet *)resultSet{
+    NSMutableArray *array = [NSMutableArray array];
+    
+    while ([resultSet next]) {
+        @autoreleasepool {
+            NSString *title = [resultSet stringForColumn:ZW_FIELD_TITLE];
+            NSString *hourMinute = [resultSet stringForColumn:ZW_FIELD_HOUR_MINUTE];
+            NSString *date = [resultSet stringForColumn:ZW_FIELD_TIME];
             
-            HistoryItemModel *model = [HistoryItemModel historyItemWithHourMinute:hourMinute url:url title:title time:date];
+            KeywordItemModel *model = [KeywordItemModel keywordItemWithHourMinute:hourMinute title:title time:date];
             [array addObject:model];
         }
     }

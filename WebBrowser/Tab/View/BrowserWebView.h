@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <WebKit/WebKit.h>
 @class BrowserWebView, WebModel, WebViewBackForwardList, HomePageView;
 
 typedef void (^WebCompletionBlock)(NSString *, NSError *);
@@ -17,13 +17,13 @@ typedef void(^BackForwardListCompletion)(WebViewBackForwardList *);
 
 @optional
 
-#pragma mark - UIWebViewDelegate
+#pragma mark - WebViewDelegate
 
-- (BOOL)webView:(BrowserWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+- (BOOL)webView:(BrowserWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKNavigationType)navigationType;
 
 @end
 
-@interface BrowserWebView : UIWebView<UIWebViewDelegate>
+@interface BrowserWebView : WKWebView<WKUIDelegate, WKNavigationDelegate>
 
 @property (nonatomic, assign) WebModel *webModel;
 @property (nonatomic, assign, readonly) BOOL isMainFrameLoaded;
@@ -31,7 +31,13 @@ typedef void(^BackForwardListCompletion)(WebViewBackForwardList *);
 @property (nonatomic, assign, readonly) UILongPressGestureRecognizer *longPressGestureRecognizer;
 @property (nonatomic, retain) HomePageView *homePage;
 
-- (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(WebCompletionBlock)completionHandler;
+@property(nonatomic, strong) WKNavigation *navigation;
+@property(nonatomic, assign) BOOL reviewsAppInAppStore;
+@property(nonatomic, assign) BOOL showsBackgroundLabel;
+
+@property(nonatomic, strong) UILabel *backgroundLabel;
+@property(nonatomic, strong) UIProgressView *progressView;
+
 
 - (NSString *)mainFURL;
 - (NSString *)mainFTitle;

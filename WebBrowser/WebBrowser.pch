@@ -25,5 +25,20 @@ static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 static const DDLogLevel ddLogLevel = DDLogLevelError;
 #endif
 
+//状态栏和导航栏的总高度
+#define StatusNav_Height (K_Is_IphoneX ? 88 : 64)
+//状态栏和导航栏的总高度
+#define K_StatusNav_Height (K_Is_IphoneX ? 88 : 64)
+#define K_Status_Height (K_Is_IphoneX ? 44 : 20)
+#define K_SAVEAREA_TOP  (K_Is_IphoneX ? 24.0f : 0.0f)
+//判断是否是iPhoneX
+#define K_Is_IphoneX (K_Height == 812.f|| K_Height == 896.f? YES : NO)
+#define K_Width [UIScreen mainScreen].bounds.size.width
+#define K_Height self.view.frame.size.height
+
+#define RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
+#define UIColorFromRGBA(r,g,b,a)            [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+
+#define titleBGColor RGBCOLOR(77, 191, 167)
 
 #endif /* WebBrowser_pch */

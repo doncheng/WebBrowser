@@ -19,8 +19,9 @@
 
 - (instancetype)initWithPath:(NSString *)inPath{
     if (self = [super init]) {
+        //[[NSFileManager defaultManager] removeItemAtPath:inPath error:nil];
         _databaseQueue = [ZWDatabaseQueue databaseQueueWithPath:inPath];
-        NSString *queueName = [NSString stringWithFormat:@"com.zhongwu.SQLite-%@", [[NSUUID UUID] UUIDString]];
+        NSString *queueName = [NSString stringWithFormat:@"com.kkyun.SQLite-%@", [[NSUUID UUID] UUIDString]];
         _synchQueue = dispatch_queue_create([queueName cStringUsingEncoding:NSASCIIStringEncoding], DISPATCH_QUEUE_SERIAL);
         [self databaseManagerDidCreated];
     }

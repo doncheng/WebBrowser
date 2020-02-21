@@ -40,13 +40,24 @@ static NSString *const kHistoryTableViewContentSize = @"contentSize";
 - (void)initUI{
     self.tableView.sectionHeaderHeight = kHistoryTableHeaderViewHeader;
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:kHistoryTableViewHeaderFooterIdentifier];
-    
-    UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithTitle:@"清除所有" style:UIBarButtonItemStylePlain target:self action:@selector(handleClearAllHistory)];
-    self.navigationItem.rightBarButtonItem = clearItem;
-    self.title = @"历史";
-    
+    self.tableView.backgroundView.backgroundColor = [UIColor whiteColor];
+
+    UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(closeView)];
+    self.navigationItem.rightBarButtonItem = closeItem;
+
+    UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithTitle:@"清除" style:UIBarButtonItemStylePlain target:self action:@selector(handleClearAllHistory)];
+    self.navigationItem.leftBarButtonItem = clearItem;
+    self.title = @"历史记录";
+
     UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
     [self.tableView addGestureRecognizer:longGesture];
+    
+    if (@available(iOS 11.0, *)) {
+        self.navigationController.navigationBar.prefersLargeTitles = YES;
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (void)initData{
@@ -98,19 +109,16 @@ static NSString *const kHistoryTableViewContentSize = @"contentSize";
     UIAlertAction *openInNewWindowAction = [UIAlertAction actionWithTitle:@"新窗口打开" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
         NSURL *url = [NSURL URLWithString:model.url];
         if (url) {
-            [self.navigationController popViewControllerAnimated:NO];
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             NSNotification *notify = [NSNotification notificationWithName:kOpenInNewWindowNotification object:self userInfo:@{@"url": url}];
             [Notifier postNotification:notify];
         }
     }];
     
-    UIAlertAction *shareAction = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-        [self.view showHUDWithMessage:@"Yep, 就是不想实现!"];
-    }];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     
-    [@[copyTitleAction, copyURLAction, openInNewWindowAction, shareAction, cancelAction] enumerateObjectsUsingBlock:^(UIAlertAction *action, NSUInteger idx, BOOL *stop){
+    [@[copyTitleAction, copyURLAction, openInNewWindowAction, cancelAction] enumerateObjectsUsingBlock:^(UIAlertAction *action, NSUInteger idx, BOOL *stop){
         [alert addAction:action];
     }];
     
@@ -138,6 +146,12 @@ static NSString *const kHistoryTableViewContentSize = @"contentSize";
     [[BrowserVC navigationController].view showHUDAtBottomWithMessage:isSuccess ? @"拷贝成功":@"拷贝失败"];
 }
 
+- (void)closeView{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
 - (void)handleClearAllHistory{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您确定删除所有历史记录？" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -155,12 +169,13 @@ static NSString *const kHistoryTableViewContentSize = @"contentSize";
 }
 
 - (void)addNoMoreDataViewIfNeeded{
-    if (self.noMoreData && !self.bottomNoMoreLabel) {
+    if (self.noMoreData && !self.bottomNoMoreLabel &&[self.historyDataManager numberOfSections] == 0) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        [label setText:@"没有更多历史访问记录"];
+        [label setText:@"浏览记录会在这显示"];
         [label setTextAlignment:NSTextAlignmentCenter];
         [self.tableView addSubview:label];
         self.bottomNoMoreLabel = label;
+        self.bottomNoMoreLabel.frame = CGRectMake(0, K_Height/2-30, self.tableView.width, 30);
     }
 }
 
@@ -192,7 +207,7 @@ static NSString *const kHistoryTableViewContentSize = @"contentSize";
 
 - (void)scrollViewContentSizeDidChange:(NSDictionary *)change{
     CGFloat yContentHeight = [[change objectForKey:NSKeyValueChangeNewKey] CGSizeValue].height;
-    self.bottomNoMoreLabel.frame = CGRectMake(0, yContentHeight, self.tableView.width, 30);
+    
 }
 
 - (void)scrollViewContentOffsetDidChange:(NSDictionary *)change{
@@ -243,13 +258,19 @@ static NSString *const kHistoryTableViewContentSize = @"contentSize";
 }
 
 #pragma mark - Table view delegate
-
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+    headerView.backgroundView.backgroundColor = [UIColor whiteColor];
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 60;
+}
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kHistoryTableViewHeaderFooterIdentifier];
     
     NSString *title = [self.historyDataManager headerTitleForSection:section];
     view.textLabel.text = title;
-    
+    //view.backgroundView.backgroundColor = [UIColor whiteColor];
     return view;
 }
 
@@ -259,7 +280,7 @@ static NSString *const kHistoryTableViewContentSize = @"contentSize";
     HistoryItemModel *itemModel = [self.historyDataManager historyModelForRowAtIndexPath:indexPath];
     
     [[DelegateManager sharedInstance] performSelector:@selector(browserContainerViewLoadWebViewWithSug:) arguments:@[itemModel.url] key:kDelegateManagerBrowserContainerLoadURL];
-    [self.navigationController popViewControllerAnimated:NO];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{

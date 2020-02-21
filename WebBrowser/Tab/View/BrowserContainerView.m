@@ -87,7 +87,8 @@ static NSString *const kBaiduSearchPath = @"https://m.baidu.com/s?ie=utf-8&word=
 
 - (void)removeHomePageIfNeededWithWebView:(BrowserWebView *)webView url:(NSURL *)url needsEqual:(BOOL)needsEqual{
     BOOL isNeeds = needsEqual ? [url.absoluteString isEqualToString:DEFAULT_CARD_CELL_URL] : ![url.absoluteString isEqualToString:DEFAULT_CARD_CELL_URL];
-    if (webView.homePage && isNeeds) {
+    //if (webView.homePage && isNeeds) {
+    if (webView.homePage ) {
         [webView.homePage removeFromSuperview];
         webView.homePage = nil;
     }
@@ -146,11 +147,22 @@ static NSString *const kBaiduSearchPath = @"https://m.baidu.com/s?ie=utf-8&word=
             {
                 [oldBrowserView removeFromSuperview];
                 [self__ addSubview:browserWebView];
+                
+                [self__ addSubview:browserWebView.backgroundLabel];
+                UILabel *backgroundLabel = browserWebView.backgroundLabel;
+                [self__ addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[backgroundLabel(<=width)]" options:0 metrics:@{@"width":@(self__.bounds.size.width)} views:NSDictionaryOfVariableBindings(backgroundLabel)]];
+                [self__ addConstraint:[NSLayoutConstraint constraintWithItem:backgroundLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self__ attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+                
+                UIProgressView *progressView = [browserWebView progressView];
+                [browserWebView addSubview:progressView];
+                progressView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 2);
+                [browserWebView bringSubviewToFront:progressView];
+
             }
             
             self__.webView = browserWebView;
             
-            if (!browserWebView.request) {
+            if (!browserWebView.navigation) {
                 SessionData *sessionData = webModel.sessionData;
                 if (sessionData) {
                     NSDictionary *originalDic = sessionData.jsonDictionary;
@@ -160,7 +172,7 @@ static NSString *const kBaiduSearchPath = @"https://m.baidu.com/s?ie=utf-8&word=
                         escapedJSON = (escapedJSON) ? escapedJSON : @"";
                         NSURL *restoreURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/about/sessionrestore?history=%@",[[WebServer sharedInstance] base],escapedJSON]];
                         [self__ startLoadWithWebView:browserWebView url:restoreURL];
-                        
+
                     }
                 }
                 else{
@@ -175,6 +187,10 @@ static NSString *const kBaiduSearchPath = @"https://m.baidu.com/s?ie=utf-8&word=
     }];
 }
 
+- (void)openHomePage{
+    [self startLoadWebViewWithURL:DEFAULT_CARD_CELL_URL];
+}
+
 #pragma mark - Handle HomePage Load
 
 - (void)handleHomePageWithWebView:(BrowserWebView *)webView{
@@ -187,7 +203,9 @@ static NSString *const kBaiduSearchPath = @"https://m.baidu.com/s?ie=utf-8&word=
     [webView addSubview:homePage];
     
     // remove wrong title when back to home page
-    [[DelegateManager sharedInstance] performSelector:@selector(webView:gotTitleName:) arguments:@[webView,@"首页"] key:kDelegateManagerWebView];
+    //[[DelegateManager sharedInstance] performSelector:@selector(webView:gotTitleName:) arguments:@[webView,@"首页"] key:kDelegateManagerWebView];
+
+    
 }
 
 #pragma mark - ActivityView
@@ -414,31 +432,32 @@ static NSString *const kBaiduSearchPath = @"https://m.baidu.com/s?ie=utf-8&word=
     switch (tag) {
         case BottomToolBarForwardButtonTag:
         {
-            [self removeHomePageIfNeededWithWebView:self.webView url:self.webView.request.URL needsEqual:YES];
+            [self removeHomePageIfNeededWithWebView:self.webView url:self.webView.URL needsEqual:YES];
             [self.webView goForward];
             break;
         }
         case BottomToolBarBackButtonTag:
         {
-            [self removeHomePageIfNeededWithWebView:self.webView url:self.webView.request.URL needsEqual:YES];
+            [self removeHomePageIfNeededWithWebView:self.webView url:self.webView.URL needsEqual:YES];
             [self.webView goBack];
             break;
         }
         case BottomToolBarRefreshButtonTag:
         {
-            NSURL *url = self.webView.request.URL;
-            if ([url isErrorPageURL]) {
-                NSURL *url = [self.webView.request.URL originalURLFromErrorURL];
-                [self startLoadWithWebView:self.webView url:url];
-            }
-            else if (!url || [url.absoluteString isEqualToString:@""]){
-                WebModel *webModel = [[TabManager sharedInstance] getCurrentWebModel];
-                url = [NSURL URLWithString:webModel.url];
-                [self startLoadWithWebView:self.webView url:url];
-            }
-            else{
+//            NSURL *url = self.webView.navigation.URL;
+//            if ([url isErrorPageURL]) {
+//                NSURL *url = [self.webView.request.URL originalURLFromErrorURL];
+//                [self startLoadWithWebView:self.webView url:url];
+//            }
+//            else
+//                if (!url || [url.absoluteString isEqualToString:@""]){
+//                WebModel *webModel = [[TabManager sharedInstance] getCurrentWebModel];
+//                url = [NSURL URLWithString:webModel.url];
+//                [self startLoadWithWebView:self.webView url:url];
+//            }
+//            else{
                 [self.webView reload];
-            }
+//            }
             break;
         }
         case BottomToolBarStopButtonTag:
@@ -451,7 +470,7 @@ static NSString *const kBaiduSearchPath = @"https://m.baidu.com/s?ie=utf-8&word=
 
 #pragma mark - WebViewDelegate
 
-- (BOOL)webView:(BrowserWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+- (BOOL)webView:(BrowserWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKNavigationType)navigationType{
     if (webView == self.webView) {
         NSURLComponents *url = [NSURLComponents componentsWithString:request.URL.absoluteString];
         if ([url.scheme isEqualToString:@"zwerror"] && [url.host isEqualToString:@"reload"]) {
@@ -472,6 +491,7 @@ static NSString *const kBaiduSearchPath = @"https://m.baidu.com/s?ie=utf-8&word=
             return NO;
         }
         else if ([url.scheme isEqualToString:@"about"] && [url.path isEqualToString:@"homepage"]) {
+            
             [self handleHomePageWithWebView:webView];
             return YES;
         }

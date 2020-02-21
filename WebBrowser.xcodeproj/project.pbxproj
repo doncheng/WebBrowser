@@ -14,15 +14,12 @@
 		0E19A4D41E232FA8009DAF9A /* NSNumber+ZWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E19A4D31E232FA8009DAF9A /* NSNumber+ZWUtility.m */; };
 		0E1A9F191EAF597400FAB196 /* BookmarkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1A9F181EAF597400FAB196 /* BookmarkTableViewController.m */; };
 		0E1A9F1C1EAF59AC00FAB196 /* BookmarkDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1A9F1B1EAF59AC00FAB196 /* BookmarkDataManager.m */; };
-		0E1F9F9E1DD2D86E00FA84EA /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F9F9B1DD2D86E00FA84EA /* NJKWebViewProgress.m */; };
-		0E1F9F9F1DD2D86E00FA84EA /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F9F9D1DD2D86E00FA84EA /* NJKWebViewProgressView.m */; };
 		0E2329311DADE07B007E9886 /* BrowserTopToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2329301DADE07B007E9886 /* BrowserTopToolBar.m */; };
 		0E2329341DAE19BB007E9886 /* TopToolBarShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2329331DAE19BB007E9886 /* TopToolBarShapeView.m */; };
 		0E2C539F1DAA24970077B9B4 /* BrowserContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2C539E1DAA24970077B9B4 /* BrowserContainerView.m */; };
 		0E2C53A31DAA314C0077B9B4 /* UIView+ZWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2C53A21DAA314C0077B9B4 /* UIView+ZWUtility.m */; };
 		0E2CC0171E0988AE0078EB91 /* UIColor+ZWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2CC0161E0988AE0078EB91 /* UIColor+ZWUtility.m */; };
 		0E2E41841E55906600A23142 /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2E41831E55906600A23142 /* WebServer.m */; };
-		0E2E41861E5590D300A23142 /* GCDWebServers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E2E41851E5590D300A23142 /* GCDWebServers.framework */; };
 		0E32E2FB1E08C69E00CFBBB5 /* CardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32E2FA1E08C69E00CFBBB5 /* CardCollectionViewCell.m */; };
 		0E32E2FF1E08C8F600CFBBB5 /* CardCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32E2FE1E08C8F600CFBBB5 /* CardCollectionViewLayout.m */; };
 		0E32E3071E08D4FB00CFBBB5 /* CardMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32E3061E08D4FB00CFBBB5 /* CardMainView.m */; };
@@ -88,8 +85,6 @@
 		0EBDC6241E1DDEC100B6A4DB /* SearchInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EBDC6231E1DDEC100B6A4DB /* SearchInputView.xib */; };
 		0EBDC6271E1DE49700B6A4DB /* CharacterSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBDC6261E1DE49700B6A4DB /* CharacterSelectView.m */; };
 		0EBE39331FA6B87800D59D04 /* ExtentionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE39321FA6B87800D59D04 /* ExtentionsManager.m */; };
-		0EBF3A651DCF33ED00CD77C8 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EBF3A631DCF33ED00CD77C8 /* CocoaLumberjack.framework */; };
-		0EBF3A661DCF33ED00CD77C8 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EBF3A641DCF33ED00CD77C8 /* MBProgressHUD.framework */; };
 		0EBF3A6A1DCF38D600CD77C8 /* BrowserBottomToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBF3A691DCF38D600CD77C8 /* BrowserBottomToolBar.m */; };
 		0EBFFE731E5299A500404199 /* JavaScriptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBFFE721E5299A500404199 /* JavaScriptHelper.m */; };
 		0EBFFE761E52AA7500404199 /* PreferenceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBFFE751E52AA7500404199 /* PreferenceHelper.m */; };
@@ -118,15 +113,19 @@
 		0EF025661DD951EB0011019F /* HTTPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF025621DD951EB0011019F /* HTTPManager.m */; };
 		0EF025671DD951EB0011019F /* HTTPURLConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF025641DD951EB0011019F /* HTTPURLConfiguration.m */; };
 		0EF0256A1DD9554F0011019F /* HTTPClient+SearchSug.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF025691DD9554F0011019F /* HTTPClient+SearchSug.m */; };
-		0EF0256C1DD9578F0011019F /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF0256B1DD9578F0011019F /* AFNetworking.framework */; };
 		0EF025701DD957EC0011019F /* BaseResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0256F1DD957EC0011019F /* BaseResponseModel.m */; };
-		0EF025721DD95B1E0011019F /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF025711DD95B1E0011019F /* Mantle.framework */; };
 		0EF025751DD99FAC0011019F /* BaiduSugResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF025741DD99FAC0011019F /* BaiduSugResponseModel.m */; };
 		0EF59F9A1ECB0B5000D6BDF9 /* FindInPage.js in Resources */ = {isa = PBXBuildFile; fileRef = 0EF59F991ECB0B5000D6BDF9 /* FindInPage.js */; };
 		0EFCB9DE1E4F62A60094C466 /* NoImageModeHelper.js in Resources */ = {isa = PBXBuildFile; fileRef = 0EFCB9DD1E4F62A60094C466 /* NoImageModeHelper.js */; };
 		0EFDD3081DD423AC002AB3FB /* HttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFDD3071DD423AC002AB3FB /* HttpHelper.m */; };
 		0EFDD30A1DD42861002AB3FB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EFDD3091DD42861002AB3FB /* AVFoundation.framework */; };
 		0EFDD30C1DD42868002AB3FB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EFDD30B1DD42868002AB3FB /* AudioToolbox.framework */; };
+		3174ACDE23F6FE8D0045CD95 /* UIProgressView+Webkit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3174ACDA23F6FE8C0045CD95 /* UIProgressView+Webkit.m */; };
+		3174ACDF23F6FE8D0045CD95 /* LYURLCacheUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3174ACDB23F6FE8D0045CD95 /* LYURLCacheUtil.m */; };
+		3174ACE223F973760045CD95 /* LinkCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3174ACE123F973760045CD95 /* LinkCollectionViewCell.m */; };
+		3174ACE523F9775C0045CD95 /* LinkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3174ACE423F9775C0045CD95 /* LinkModel.m */; };
+		31CE841B23EDAEE60024C8B2 /* html.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 31CE841A23EDAEE60024C8B2 /* html.bundle */; };
+		A607EFCE0BEB6CAE6CD19A4C /* libPods-WebBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B02EE509ECC6D93F8FB72E /* libPods-WebBrowser.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,10 +143,6 @@
 		0E1A9F181EAF597400FAB196 /* BookmarkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BookmarkTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0E1A9F1A1EAF59AC00FAB196 /* BookmarkDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarkDataManager.h; sourceTree = "<group>"; };
 		0E1A9F1B1EAF59AC00FAB196 /* BookmarkDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarkDataManager.m; sourceTree = "<group>"; };
-		0E1F9F9A1DD2D86E00FA84EA /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NJKWebViewProgress.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0E1F9F9B1DD2D86E00FA84EA /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NJKWebViewProgress.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0E1F9F9C1DD2D86E00FA84EA /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NJKWebViewProgressView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0E1F9F9D1DD2D86E00FA84EA /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NJKWebViewProgressView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0E23292F1DADE07B007E9886 /* BrowserTopToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserTopToolBar.h; sourceTree = "<group>"; };
 		0E2329301DADE07B007E9886 /* BrowserTopToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BrowserTopToolBar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0E2329321DAE19BB007E9886 /* TopToolBarShapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopToolBarShapeView.h; sourceTree = "<group>"; };
@@ -162,7 +157,6 @@
 		0E2CC0161E0988AE0078EB91 /* UIColor+ZWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIColor+ZWUtility.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0E2E41821E55906600A23142 /* WebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServer.h; sourceTree = "<group>"; };
 		0E2E41831E55906600A23142 /* WebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServer.m; sourceTree = "<group>"; };
-		0E2E41851E5590D300A23142 /* GCDWebServers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GCDWebServers.framework; path = Carthage/Build/iOS/GCDWebServers.framework; sourceTree = "<group>"; };
 		0E32E2F91E08C69E00CFBBB5 /* CardCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardCollectionViewCell.h; sourceTree = "<group>"; };
 		0E32E2FA1E08C69E00CFBBB5 /* CardCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CardCollectionViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0E32E2FD1E08C8F600CFBBB5 /* CardCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardCollectionViewLayout.h; sourceTree = "<group>"; };
@@ -207,7 +201,7 @@
 		0E5CC9E31E794FFD0049ABEB /* WebViewBackForwardList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewBackForwardList.m; sourceTree = "<group>"; };
 		0E6110A31FA2E050009F2568 /* ExtentionsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtentionsTableViewController.h; sourceTree = "<group>"; };
 		0E6110A41FA2E050009F2568 /* ExtentionsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtentionsTableViewController.m; sourceTree = "<group>"; };
-		0E681F251D4AEC3F003534F5 /* WebBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E681F251D4AEC3F003534F5 /* KK浏览器.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KK浏览器.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E681F291D4AEC3F003534F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E681F2B1D4AEC3F003534F5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E681F2C1D4AEC3F003534F5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -292,8 +286,6 @@
 		0EBDC6261E1DE49700B6A4DB /* CharacterSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CharacterSelectView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0EBE39311FA6B87800D59D04 /* ExtentionsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtentionsManager.h; sourceTree = "<group>"; };
 		0EBE39321FA6B87800D59D04 /* ExtentionsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtentionsManager.m; sourceTree = "<group>"; };
-		0EBF3A631DCF33ED00CD77C8 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		0EBF3A641DCF33ED00CD77C8 /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
 		0EBF3A681DCF38D600CD77C8 /* BrowserBottomToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserBottomToolBar.h; sourceTree = "<group>"; };
 		0EBF3A691DCF38D600CD77C8 /* BrowserBottomToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BrowserBottomToolBar.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0EBF3A6B1DCF715200CD77C8 /* BrowserBottomToolBarHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrowserBottomToolBarHeader.h; sourceTree = "<group>"; };
@@ -344,10 +336,8 @@
 		0EF025641DD951EB0011019F /* HTTPURLConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPURLConfiguration.m; sourceTree = "<group>"; };
 		0EF025681DD9554F0011019F /* HTTPClient+SearchSug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTTPClient+SearchSug.h"; sourceTree = "<group>"; };
 		0EF025691DD9554F0011019F /* HTTPClient+SearchSug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HTTPClient+SearchSug.m"; sourceTree = "<group>"; };
-		0EF0256B1DD9578F0011019F /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/iOS/AFNetworking.framework; sourceTree = "<group>"; };
 		0EF0256E1DD957EC0011019F /* BaseResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseResponseModel.h; sourceTree = "<group>"; };
 		0EF0256F1DD957EC0011019F /* BaseResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseResponseModel.m; sourceTree = "<group>"; };
-		0EF025711DD95B1E0011019F /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		0EF025731DD99FAC0011019F /* BaiduSugResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduSugResponseModel.h; sourceTree = "<group>"; };
 		0EF025741DD99FAC0011019F /* BaiduSugResponseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduSugResponseModel.m; sourceTree = "<group>"; };
 		0EF59F991ECB0B5000D6BDF9 /* FindInPage.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FindInPage.js; sourceTree = "<group>"; };
@@ -356,6 +346,19 @@
 		0EFDD3071DD423AC002AB3FB /* HttpHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpHelper.m; sourceTree = "<group>"; };
 		0EFDD3091DD42861002AB3FB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		0EFDD30B1DD42868002AB3FB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		14AFC72560DABC41E7605483 /* Pods-WebBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebBrowser.debug.xcconfig"; path = "Target Support Files/Pods-WebBrowser/Pods-WebBrowser.debug.xcconfig"; sourceTree = "<group>"; };
+		3174ACDA23F6FE8C0045CD95 /* UIProgressView+Webkit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+Webkit.m"; sourceTree = "<group>"; };
+		3174ACDB23F6FE8D0045CD95 /* LYURLCacheUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYURLCacheUtil.m; sourceTree = "<group>"; };
+		3174ACDC23F6FE8D0045CD95 /* UIProgressView+WebKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+WebKit.h"; sourceTree = "<group>"; };
+		3174ACDD23F6FE8D0045CD95 /* LYURLCacheUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYURLCacheUtil.h; sourceTree = "<group>"; };
+		3174ACE023F973760045CD95 /* LinkCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkCollectionViewCell.h; sourceTree = "<group>"; };
+		3174ACE123F973760045CD95 /* LinkCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkCollectionViewCell.m; sourceTree = "<group>"; };
+		3174ACE323F9775C0045CD95 /* LinkModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinkModel.h; sourceTree = "<group>"; };
+		3174ACE423F9775C0045CD95 /* LinkModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LinkModel.m; sourceTree = "<group>"; };
+		31CC93CB23FEDC87004788E0 /* KK浏览器.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "KK浏览器.entitlements"; sourceTree = "<group>"; };
+		31CE841A23EDAEE60024C8B2 /* html.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = html.bundle; sourceTree = "<group>"; };
+		41B02EE509ECC6D93F8FB72E /* libPods-WebBrowser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WebBrowser.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A253BB1DCC3AFED1E075E80 /* Pods-WebBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebBrowser.release.xcconfig"; path = "Target Support Files/Pods-WebBrowser/Pods-WebBrowser.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,15 +369,11 @@
 				0EB636641E5B30E8000BD2D6 /* CFNetwork.framework in Frameworks */,
 				0ECA02A11E5B000000955887 /* libxml2.2.tbd in Frameworks */,
 				0ECA029F1E5AFFF900955887 /* libz.tbd in Frameworks */,
-				0E2E41861E5590D300A23142 /* GCDWebServers.framework in Frameworks */,
 				0EC14F561E31B9B300A44D05 /* libsqlite3.tbd in Frameworks */,
-				0EF025721DD95B1E0011019F /* Mantle.framework in Frameworks */,
-				0EF0256C1DD9578F0011019F /* AFNetworking.framework in Frameworks */,
 				0EFDD30C1DD42868002AB3FB /* AudioToolbox.framework in Frameworks */,
 				0EFDD30A1DD42861002AB3FB /* AVFoundation.framework in Frameworks */,
 				0EAA18B91DD35D5D0072F9B3 /* WebKit.framework in Frameworks */,
-				0EBF3A651DCF33ED00CD77C8 /* CocoaLumberjack.framework in Frameworks */,
-				0EBF3A661DCF33ED00CD77C8 /* MBProgressHUD.framework in Frameworks */,
+				A607EFCE0BEB6CAE6CD19A4C /* libPods-WebBrowser.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,7 +383,6 @@
 		0E29644720134D6E00E0B914 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
-				0E29644B201355C700E0B914 /* NJKWebViewProgress */,
 				0E29644A2013557400E0B914 /* fmdb */,
 			);
 			path = Vendors;
@@ -406,17 +404,6 @@
 				0EC14F4F1E31B97900A44D05 /* FMResultSet.m */,
 			);
 			path = fmdb;
-			sourceTree = "<group>";
-		};
-		0E29644B201355C700E0B914 /* NJKWebViewProgress */ = {
-			isa = PBXGroup;
-			children = (
-				0E1F9F9A1DD2D86E00FA84EA /* NJKWebViewProgress.h */,
-				0E1F9F9B1DD2D86E00FA84EA /* NJKWebViewProgress.m */,
-				0E1F9F9C1DD2D86E00FA84EA /* NJKWebViewProgressView.h */,
-				0E1F9F9D1DD2D86E00FA84EA /* NJKWebViewProgressView.m */,
-			);
-			path = NJKWebViewProgress;
 			sourceTree = "<group>";
 		};
 		0E29644E20135B0E00E0B914 /* Network */ = {
@@ -777,6 +764,10 @@
 				0EBF3A691DCF38D600CD77C8 /* BrowserBottomToolBar.m */,
 				0E1702C61ECC412B0075C7D5 /* FindInPageBar.h */,
 				0E1702C71ECC412B0075C7D5 /* FindInPageBar.m */,
+				3174ACE023F973760045CD95 /* LinkCollectionViewCell.h */,
+				3174ACE123F973760045CD95 /* LinkCollectionViewCell.m */,
+				3174ACE323F9775C0045CD95 /* LinkModel.h */,
+				3174ACE423F9775C0045CD95 /* LinkModel.m */,
 				0E081F0A1FA1C5C10024DFE5 /* HomePageView.h */,
 				0E081F0B1FA1C5C10024DFE5 /* HomePageView.m */,
 			);
@@ -795,6 +786,10 @@
 		0E29646F20136ACB00E0B914 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3174ACDD23F6FE8D0045CD95 /* LYURLCacheUtil.h */,
+				3174ACDB23F6FE8D0045CD95 /* LYURLCacheUtil.m */,
+				3174ACDC23F6FE8D0045CD95 /* UIProgressView+WebKit.h */,
+				3174ACDA23F6FE8C0045CD95 /* UIProgressView+Webkit.m */,
 				0E29647620136AFC00E0B914 /* Macro */,
 				0E29647520136AF500E0B914 /* Helper */,
 				0E29647420136AED00E0B914 /* Category */,
@@ -953,6 +948,7 @@
 			children = (
 				0EDD68E41DACFBF400265744 /* Assets.xcassets */,
 				0E681F361D4AEC3F003534F5 /* LaunchScreen.storyboard */,
+				31CE841A23EDAEE60024C8B2 /* html.bundle */,
 				0E29647E20136C5D00E0B914 /* JavaScript */,
 				0E29647D20136C5800E0B914 /* HTML */,
 				0E29647C20136C5300E0B914 /* CSS */,
@@ -992,18 +988,20 @@
 		0E681F1C1D4AEC3F003534F5 = {
 			isa = PBXGroup;
 			children = (
+				31CC93CB23FEDC87004788E0 /* KK浏览器.entitlements */,
 				0E681F271D4AEC3F003534F5 /* WebBrowser */,
 				0E681F411D4AEC3F003534F5 /* WebBrowserTests */,
 				0E681F4C1D4AEC3F003534F5 /* WebBrowserUITests */,
 				0E681F261D4AEC3F003534F5 /* Products */,
 				0EBF3A621DCF33ED00CD77C8 /* Frameworks */,
+				D48BD0A4676DF9D02593965E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
 		0E681F261D4AEC3F003534F5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0E681F251D4AEC3F003534F5 /* WebBrowser.app */,
+				0E681F251D4AEC3F003534F5 /* KK浏览器.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1072,17 +1070,22 @@
 				0EB636631E5B30E8000BD2D6 /* CFNetwork.framework */,
 				0ECA02A01E5B000000955887 /* libxml2.2.tbd */,
 				0ECA029E1E5AFFF900955887 /* libz.tbd */,
-				0E2E41851E5590D300A23142 /* GCDWebServers.framework */,
 				0EC14F551E31B9B300A44D05 /* libsqlite3.tbd */,
-				0EF025711DD95B1E0011019F /* Mantle.framework */,
-				0EF0256B1DD9578F0011019F /* AFNetworking.framework */,
 				0EFDD30B1DD42868002AB3FB /* AudioToolbox.framework */,
 				0EFDD3091DD42861002AB3FB /* AVFoundation.framework */,
 				0EAA18B81DD35D5D0072F9B3 /* WebKit.framework */,
-				0EBF3A631DCF33ED00CD77C8 /* CocoaLumberjack.framework */,
-				0EBF3A641DCF33ED00CD77C8 /* MBProgressHUD.framework */,
+				41B02EE509ECC6D93F8FB72E /* libPods-WebBrowser.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D48BD0A4676DF9D02593965E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				14AFC72560DABC41E7605483 /* Pods-WebBrowser.debug.xcconfig */,
+				5A253BB1DCC3AFED1E075E80 /* Pods-WebBrowser.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1092,10 +1095,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0E681F521D4AEC3F003534F5 /* Build configuration list for PBXNativeTarget "WebBrowser" */;
 			buildPhases = (
+				6237DBED469B261993C7E16C /* [CP] Check Pods Manifest.lock */,
 				0E681F211D4AEC3F003534F5 /* Sources */,
 				0E681F221D4AEC3F003534F5 /* Frameworks */,
 				0E681F231D4AEC3F003534F5 /* Resources */,
-				0EBF3A671DCF340000CD77C8 /* ShellScript */,
+				652051A637DBB5E3AC85E625 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1103,7 +1107,7 @@
 			);
 			name = WebBrowser;
 			productName = WebBrowser;
-			productReference = 0E681F251D4AEC3F003534F5 /* WebBrowser.app */;
+			productReference = 0E681F251D4AEC3F003534F5 /* KK浏览器.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1117,8 +1121,8 @@
 				TargetAttributes = {
 					0E681F241D4AEC3F003534F5 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 5CM479A392;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 65Q374UPJ5;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -1158,6 +1162,7 @@
 				0E44786E1EC0395100D8F3F3 /* BookmarkEditTextFieldTableViewCell.xib in Resources */,
 				0EBDC6241E1DDEC100B6A4DB /* SearchInputView.xib in Resources */,
 				0E681F381D4AEC3F003534F5 /* LaunchScreen.storyboard in Resources */,
+				31CE841B23EDAEE60024C8B2 /* html.bundle in Resources */,
 				0E5988A61E2F8070003259C0 /* SettingActivityTableViewCell.xib in Resources */,
 				0EBFFE7B1E52B22C00404199 /* SettingSwitchTableViewCell.xib in Resources */,
 				0EF59F9A1ECB0B5000D6BDF9 /* FindInPage.js in Resources */,
@@ -1170,24 +1175,45 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0EBF3A671DCF340000CD77C8 /* ShellScript */ = {
+		6237DBED469B261993C7E16C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WebBrowser-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		652051A637DBB5E3AC85E625 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjack.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/MBProgressHUD.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/AFNetworking.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/GCDWebServers.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Mantle.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SDWebImage.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-WebBrowser/Pods-WebBrowser-resources.sh",
+				"${PODS_ROOT}/UMCShare/UMShare/UMSocialUI/UMSocialSDKResources.bundle",
 			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WebBrowser/Pods-WebBrowser-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1201,6 +1227,7 @@
 				0EF025671DD951EB0011019F /* HTTPURLConfiguration.m in Sources */,
 				0EC14F5B1E31BB0800A44D05 /* HistoryTableViewController.m in Sources */,
 				0E986A0F1D4D06170003900D /* TabManager.m in Sources */,
+				3174ACDE23F6FE8D0045CD95 /* UIProgressView+Webkit.m in Sources */,
 				0EC14F521E31B97900A44D05 /* FMDatabasePool.m in Sources */,
 				0E081F0C1FA1C5C10024DFE5 /* HomePageView.m in Sources */,
 				0ED35E8C1E40B56F0060A367 /* DelegateManager+WebViewDelegate.m in Sources */,
@@ -1220,6 +1247,7 @@
 				0EC14F531E31B97900A44D05 /* FMDatabaseQueue.m in Sources */,
 				0E681F661D4AFEAA003534F5 /* KeyboardHelper.m in Sources */,
 				0E3A6B731E11102C00071397 /* SettingsCollectionViewCell.m in Sources */,
+				3174ACE523F9775C0045CD95 /* LinkModel.m in Sources */,
 				0EF025701DD957EC0011019F /* BaseResponseModel.m in Sources */,
 				0E5CC9E11E794D890049ABEB /* WebViewHistoryItem.m in Sources */,
 				0E9361DC1EB0FAEE004F6AE7 /* BookmarkTableViewCell.m in Sources */,
@@ -1242,13 +1270,13 @@
 				0E7078141E9652C400E898A8 /* ZWDatabaseQueue.m in Sources */,
 				0EBC36B41F79096400DB4889 /* NSData+ZWUtility.m in Sources */,
 				0E2329311DADE07B007E9886 /* BrowserTopToolBar.m in Sources */,
+				3174ACDF23F6FE8D0045CD95 /* LYURLCacheUtil.m in Sources */,
 				0E2329341DAE19BB007E9886 /* TopToolBarShapeView.m in Sources */,
 				0E5988A51E2F8070003259C0 /* SettingActivityTableViewCell.m in Sources */,
 				0E512D461E66BCA9008A8AFA /* CardBrowserFlatLayout.m in Sources */,
 				0E681F2D1D4AEC3F003534F5 /* AppDelegate.m in Sources */,
 				0E44786D1EC0395100D8F3F3 /* BookmarkEditTextFieldTableViewCell.m in Sources */,
 				0E8EE8351E11277100B6DADF /* SettingAnimator.m in Sources */,
-				0E1F9F9E1DD2D86E00FA84EA /* NJKWebViewProgress.m in Sources */,
 				0E3D2B741E248D5E00364B69 /* SettingsTableViewController.m in Sources */,
 				0E831A0F1E87DBCD00FB3576 /* NSURLCache+ZWUtility.m in Sources */,
 				0E32E2FF1E08C8F600CFBBB5 /* CardCollectionViewLayout.m in Sources */,
@@ -1284,7 +1312,7 @@
 				0E7E43A01F67E0D200DB6CD7 /* ArrowActivityView.m in Sources */,
 				0E1A9F191EAF597400FAB196 /* BookmarkTableViewController.m in Sources */,
 				0EC3D8BC1EC1C99D0059E4DC /* BookmarkSectionTableViewCell.m in Sources */,
-				0E1F9F9F1DD2D86E00FA84EA /* NJKWebViewProgressView.m in Sources */,
+				3174ACE223F973760045CD95 /* LinkCollectionViewCell.m in Sources */,
 				0E2CC0171E0988AE0078EB91 /* UIColor+ZWUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1407,11 +1435,15 @@
 		};
 		0E681F531D4AEC3F003534F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 14AFC72560DABC41E7605483 /* Pods-WebBrowser.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "KK浏览器.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 5CM479A392;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = 65Q374UPJ5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1419,22 +1451,28 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WebBrowser/WebBrowser.pch;
 				INFOPLIST_FILE = WebBrowser/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
 				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = cn.zhongwu.WebBrowser;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kkyun.browser;
+				PRODUCT_NAME = "KK浏览器";
+				PROVISIONING_PROFILE_SPECIFIER = browser;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		0E681F541D4AEC3F003534F5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A253BB1DCC3AFED1E075E80 /* Pods-WebBrowser.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "KK浏览器.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 5CM479A392;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = 65Q374UPJ5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1442,12 +1480,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WebBrowser/WebBrowser.pch;
 				INFOPLIST_FILE = WebBrowser/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
 				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = cn.zhongwu.WebBrowser;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kkyun.browser;
+				PRODUCT_NAME = "KK浏览器";
+				PROVISIONING_PROFILE_SPECIFIER = browser;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

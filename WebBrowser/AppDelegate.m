@@ -20,6 +20,12 @@
 #import "PreferenceHelper.h"
 #import "BaseNavigationViewController.h"
 
+#import <UMCommon/UMCommon.h>
+#import <UMPush/UMessage.h>
+#import <UserNotifications/UserNotifications.h>
+#import <UMShare/UMShare.h>
+#import <UMAnalytics/MobClick.h>
+
 static NSString * const kUserAgentOfiOS = @"Mozilla/5.0 (iPhone; CPU iPhone OS %ld_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/%ld.0 Mobile/14A300 Safari/602.1";
 
 @interface AppDelegate ()
@@ -69,7 +75,7 @@ static NSString * const kUserAgentOfiOS = @"Mozilla/5.0 (iPhone; CPU iPhone OS %
 	NSInteger version = systemVersion.majorVersion;
 
 	NSString *userAgent = [NSString stringWithFormat:kUserAgentOfiOS, version, version];
-	//解决UIWebView首次加载页面时间过长问题,设置UserAgent减少跳转和判断
+	//解决WebView首次加载页面时间过长问题,设置UserAgent减少跳转和判断
 	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent" : userAgent}];
 }
 
@@ -113,6 +119,34 @@ static NSString * const kUserAgentOfiOS = @"Mozilla/5.0 (iPhone; CPU iPhone OS %
         [self applicationStartPrepare];
     });
     
+    [UMConfigure setLogEnabled:YES];
+    
+    
+    [UMConfigure initWithAppkey:@"5e4ea006895ccac57600012c" channel:@"App Store"];
+    
+    // Push组件基本功能配置
+    UMessageRegisterEntity * entity = [[UMessageRegisterEntity alloc] init];
+    //type是对推送的几个参数的选择，可以选择一个或者多个。默认是三个全部打开，即：声音，弹窗，角标
+    entity.types = UMessageAuthorizationOptionBadge|UMessageAuthorizationOptionSound|UMessageAuthorizationOptionAlert;
+    [UNUserNotificationCenter currentNotificationCenter].delegate=self;
+    [UMessage registerForRemoteNotificationsWithLaunchOptions:launchOptions Entity:entity     completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if (granted) {
+            
+        }else{
+        }
+    }];
+    
+    NSString * deviceID =[UMConfigure deviceIDForIntegration];
+    NSLog(@"集成测试的deviceID:%@", deviceID);
+    NSData * jsonData =[NSJSONSerialization dataWithJSONObject:@{@"oid" : deviceID}
+                                                       options: NSJSONWritingPrettyPrinted
+                                                         error: nil];
+    NSLog(@"%@", [[NSString alloc] initWithData: jsonData encoding: NSUTF8StringEncoding]);
+    
+    // U-Share 平台设置
+    [self configUSharePlatforms];
+    [self confitUShareSettings];
+    
     return YES;
 }
 
@@ -133,7 +167,7 @@ static NSString * const kUserAgentOfiOS = @"Mozilla/5.0 (iPhone; CPU iPhone OS %
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-// Enable UIWebView video landscape
+// Enable WebView video landscape
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
     static NSString *kAVFullScreenViewControllerStr = @"AVFullScreenViewController";
     UIViewController *presentedViewController = [window.rootViewController presentedViewController];
@@ -154,4 +188,43 @@ static NSString * const kUserAgentOfiOS = @"Mozilla/5.0 (iPhone; CPU iPhone OS %
     return YES;
 }
 
+#pragma mark - 分享
+- (void)confitUShareSettings
+{
+    /*
+     * 打开图片水印
+     */
+    [UMSocialGlobal shareInstance].isUsingWaterMark = YES;
+    
+    /*
+     * 关闭强制验证https，可允许http图片分享，但需要在info.plist设置安全域名
+     <key>NSAppTransportSecurity</key>
+     <dict>
+     <key>NSAllowsArbitraryLoads</key>
+     <true/>
+     </dict>
+     */
+    //[UMSocialGlobal shareInstance].isUsingHttpsWhenShareContent = NO;
+    
+}
+
+- (void)configUSharePlatforms
+{
+    /* 设置微信的appKey和appSecret */
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wxcaeb49c2e82d7302" appSecret:@"13394f81e0d927e3194016b539273f9b" redirectURL:@"http://kkyun.com"];
+    /*
+     * 移除相应平台的分享，如微信收藏
+     */
+    //[[UMSocialManager defaultManager] removePlatformProviderWithPlatformTypes:@[@(UMSocialPlatformType_WechatFavorite)]];
+    
+    /* 设置分享到QQ互联的appID
+     * U-Share SDK为了兼容大部分平台命名，统一用appKey和appSecret进行参数设置，而QQ平台仅需将appID作为U-Share的appKey参数传进即可。
+     */
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"101536069"/*设置QQ平台的appID*/  appSecret:nil redirectURL:@"http://kkyun.com"];
+    
+    /* 设置新浪的appKey和appSecret */
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:@"3921700954"  appSecret:@"04b48b094faeb16683c32669824ebdad" redirectURL:@"http://kkyun.com"];
+    
+    
+}
 @end

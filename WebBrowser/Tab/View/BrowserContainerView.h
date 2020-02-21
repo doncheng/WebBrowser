@@ -18,5 +18,5 @@ typedef void(^TabCompletion)(WebModel *webModel, BrowserWebView *browserWebView)
 @property (nonatomic, readonly, weak) BrowserWebView *webView;
 
 - (void)restoreWithCompletionHandler:(TabCompletion)completion animation:(BOOL)animation;
-
+- (void)openHomePage;
 @end

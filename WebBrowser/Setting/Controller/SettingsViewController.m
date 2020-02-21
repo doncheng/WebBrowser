@@ -92,7 +92,7 @@ static NSString * const CellId = @"SettingsMenuCell";
     self.view.backgroundColor = [UIColor clearColor];
     self.view.tintColor = [UIColor whiteColor];
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:[UICollectionViewFlowLayout new]];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(K_Width-150, self.view.bounds.origin.y, 150, self.view.bounds.size.height) collectionViewLayout:[UICollectionViewFlowLayout new]];
     self.collectionView.autoresizingMask = 0;
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.alwaysBounceVertical = YES;
@@ -106,6 +106,7 @@ static NSString * const CellId = @"SettingsMenuCell";
     self.collectionView.backgroundView.backgroundColor = [UIColor clearColor];
     self.collectionView.backgroundView.userInteractionEnabled = YES;
     [self.collectionView.backgroundView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss:)]];
+
     [self adjustCollectionView];
     
     self.backgroundView.alpha = 0;
@@ -113,7 +114,7 @@ static NSString * const CellId = @"SettingsMenuCell";
 }
 
 - (void)adjustCollectionView{
-    CGFloat height = self.collectionView.height - (self.items.count * [self itemHeight] + BOTTOM_TOOL_BAR_HEIGHT);
+    CGFloat height = self.collectionView.height - (self.items.count * [self itemHeight] + BOTTOM_TOOL_BAR_HEIGHT)-K_SAVEAREA_TOP;
     self.collectionView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
 }
 
@@ -153,21 +154,25 @@ static NSString * const CellId = @"SettingsMenuCell";
 - (void)dismiss:(UITapGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateEnded) {
-        UIViewController *vc = [self presentingViewController];
-        if ([vc isKindOfClass:[UINavigationController class]])
-        {
-            vc = [vc performSelector:@selector(topViewController)];
-        }
-        
-        [self dismissViewControllerAnimated:YES completion:^{
-            [vc.view setNeedsLayout];
-            if ([vc respondsToSelector:@selector(collectionView)])
-            {
-                UICollectionView *collectionView = [vc performSelector:@selector(collectionView)];
-                [collectionView.collectionViewLayout invalidateLayout];
-            }
-        }];
+        [self dismissViewController];
     }
+}
+
+- (void)dismissViewController{
+    UIViewController *vc = [self presentingViewController];
+    if ([vc isKindOfClass:[UINavigationController class]])
+    {
+        vc = [vc performSelector:@selector(topViewController)];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        [vc.view setNeedsLayout];
+        if ([vc respondsToSelector:@selector(collectionView)])
+        {
+            UICollectionView *collectionView = [vc performSelector:@selector(collectionView)];
+            [collectionView.collectionViewLayout invalidateLayout];
+        }
+    }];
 }
 
 - (SettingsMenuBackgroundView *)backgroundView {
@@ -217,7 +222,7 @@ static NSString * const CellId = @"SettingsMenuCell";
         cell.textLabel.attributedText = item.attributedText;
     }
     cell.imageView.image = item.image;
-    
+
     return cell;
 }
 
@@ -328,6 +333,10 @@ static NSString * const CellId = @"SettingsMenuCell";
             }
         }];
     }
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self dismissViewController];
 }
 
 @end

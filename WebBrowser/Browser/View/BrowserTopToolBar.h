@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BrowserWebView.h"
-#import "NJKWebViewProgress.h"
 
-@interface BrowserTopToolBar : UIView <WebViewDelegate, NJKWebViewProgressDelegate>
+@interface BrowserTopToolBar : UIView <WebViewDelegate>
 
 - (void)setTopURLOrTitle:(NSString *)urlOrTitle;
 

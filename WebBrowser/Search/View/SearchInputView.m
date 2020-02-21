@@ -8,6 +8,7 @@
 
 #import "SearchInputView.h"
 #import "BrowserViewController.h"
+#import "HistorySQLiteManager.h"
 
 typedef enum : NSUInteger {
     SearchButtonBottomButton,
@@ -44,6 +45,8 @@ typedef enum : NSUInteger {
 }
 
 - (void)commonUIInit{
+
+    
     self.textField.delegate = self;
     
     [self.slider addTarget:self action:@selector(sliderValueChangedAction:) forControlEvents:UIControlEventValueChanged];
@@ -100,7 +103,7 @@ typedef enum : NSUInteger {
             break;
         case SearchButtonBottomButton:
             [self.textField insertText:sender.titleLabel.text];
-            if (self.quickState == QuickInputButtonStateFirst && ![@[@"http://",@"https://"] containsObject:sender.titleLabel.text]) {
+            if (self.quickState == QuickInputButtonStateFirst ) {
                 [self switchInputViewButtonState];
             }
             break;
@@ -123,6 +126,7 @@ typedef enum : NSUInteger {
     NSString *text = textField.text;
     if (text) {
         [[DelegateManager sharedInstance] performSelector:@selector(browserContainerViewLoadWebViewWithSug:) arguments:@[text] key:kDelegateManagerBrowserContainerLoadURL];
+        [[HistorySQLiteManager sharedInstance] insertOrUpdateKeywordWithTitle:text];
     }
     [[BrowserVC navigationController] popToRootViewControllerAnimated:NO];
     [textField resignFirstResponder];
@@ -135,6 +139,12 @@ typedef enum : NSUInteger {
         if (self.quickState) {
             [self switchInputViewButtonState];
         }
+    }else if ([[textField.textInputMode primaryLanguage] hasPrefix:@"en-"]) {
+        self.quickState = QuickInputButtonStateSecond;
+        NSArray *titleArray = @[@".",@"/",@".com",@".cn"] ;
+        [self.bottomButtonCollection enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop){
+            [button setTitle:titleArray[idx] forState:UIControlStateNormal];
+        }];
     }
 }
 

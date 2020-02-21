@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GCDWebServers/GCDWebServers.h>
+#import <GCDWebServer.h>
+#import <GCDWebServerDataResponse.h>
 
 typedef GCDWebServerResponse *(^ServerBlock)(GCDWebServerRequest *);
 
