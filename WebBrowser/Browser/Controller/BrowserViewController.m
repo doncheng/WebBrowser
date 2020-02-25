@@ -13,7 +13,6 @@
 #import "BrowserTopToolBar.h"
 #import "BrowserHeader.h"
 #import "BrowserBottomToolBar.h"
-#import "CardMainView.h"
 #import "SettingsViewController.h"
 #import "SettingsTableViewController.h"
 #import "HistoryTableViewController.h"
@@ -227,14 +226,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
         WEAK_REF(self)
         NSArray<SettingsMenuItem *> *items =
         @[
-//          [SettingsMenuItem itemWithText:@"设置" image:[UIImage imageNamed:@"album"] action:^{
-//              //[self_ pushTableViewControllerWithControllerName:[ExtentionsTableViewController class] style:UITableViewStyleGrouped];
-//              ExtentionsTableViewController *extentionsTableViewController = [[ExtentionsTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-//
-//               [self_ presentViewController:[[UINavigationController alloc] initWithRootViewController:extentionsTableViewController] animated:YES completion:^{
-//
-//               }];
-//          }],
             [SettingsMenuItem itemWithText:@"历史记录" image:[UIImage imageNamed:@"more_history"] action:^{
                 //[self_ pushTableViewControllerWithControllerName:[HistoryTableViewController class] style:UITableViewStylePlain];
                 HistoryTableViewController *historyTableViewController = [[HistoryTableViewController alloc] init];
@@ -279,18 +270,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BrowserViewController)
         [SettingsViewController presentFromViewController:self withItems:items completion:nil];
     }
     if (tag == BottomToolBarMultiWindowButtonTag) {
-//        CardMainView *cardMainView = [[CardMainView alloc] initWithFrame:self.view.bounds];
-//        [cardMainView reloadCardMainViewWithCompletionBlock:^{
-//            UIImage *image = [self.view snapshot];
-//            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-//            imageView.frame = cardMainView.bounds;
-//            [cardMainView addSubview:imageView];
-//            [self.view addSubview:cardMainView];
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                [imageView removeFromSuperview];
-//                [cardMainView changeCollectionViewLayout];
-//            });
-//        }];
+
         [self.browserContainerView openHomePage];
     }
 }

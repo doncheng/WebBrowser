@@ -267,30 +267,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TabManager)
     return webModel;
 }
 
-- (void)setMultiWebViewOperationBlockWith:(MultiWebViewOperationBlock)block{
-    dispatch_async(self.synchQueue, ^{
-        [self.webModelArray enumerateObjectsUsingBlock:^(WebModel *webModel, NSUInteger idx, BOOL *stop){
-            webModel.isImageProcessed = NO;
-            UIImage *image = [webModel.webView snapshotForBrowserWebView];
-            if (!image) {
-                image = [self imageFromDiskCacheForKey:webModel.imageKey];
-                if (image) {
-                    webModel.isImageProcessed = YES;
-                }
-            }
-            if (!image) {
-                image = ([webModel.url isEqualToString:DEFAULT_CARD_CELL_URL]) ? [UIImage imageNamed:DEFAULT_CARD_CELL_IMAGE] : [UIImage imageNamed:DEFAULT_IMAGE];
-            }
-            webModel.image = image;
-        }];
-        dispatch_main_safe_async(^{
-            if (block) {
-                block([self.webModelArray copy]);
-            }
-        })
-    });
-}
-
 - (void)setCurWebViewOperationBlockWith:(CurWebViewOperationBlock)block{
     WEAK_REF(self)
     dispatch_async(self.synchQueue, ^{
@@ -587,12 +563,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TabManager)
 - (void)webView:(BrowserWebView *)webView gotTitleName:(NSString*)titleName{
     [ExtentionsManager loadExtentionsIfNeededWhenGotTitleWithWebView:webView];
     [[HistorySQLiteManager sharedInstance] insertOrUpdateHistoryWithURL:webView.mainFURL title:titleName];
+    DDLogDebug(@"titleName%@",titleName);
+
     NSString *js = [NSString stringWithFormat:@"var a = document.getElementsByTagName('link');for(var i=0;i<a.length;i++){if(a[i].getAttribute('rel').indexOf('apple-touch-icon') != -1){a[i].getAttribute('href');break;}}"];
     NSString *url = webView.mainFURL;
     [webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
         if ([result isKindOfClass:[NSString class]]) {
             NSString *resultStr = result;
-            DDLogDebug(@"meta%@",result);
+            DDLogDebug(@"apple-touch-icon:%@",result);
             if ([resultStr hasPrefix:@"//"]) {
                 resultStr = [NSString stringWithFormat:@"http:%@",result];
             }

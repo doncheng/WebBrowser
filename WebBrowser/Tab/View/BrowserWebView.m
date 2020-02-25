@@ -7,7 +7,6 @@
 //
 
 #import "BrowserWebView.h"
-#import "WebViewHeader.h"
 #import "HttpHelper.h"
 #import "TabManager.h"
 #import "DelegateManager+WebViewDelegate.h"
@@ -34,7 +33,7 @@ static NSString *const kLYNetworkErrorURLKey = @"html.bundle/neterror.html";
 /// Tag value for container view.
 static NSUInteger const kContainerViewTag = 0x893147;
 
-@interface BrowserWebView () <MenuHelperInterface>
+@interface BrowserWebView () <MenuHelperInterface,SKStoreProductViewControllerDelegate>
 {
     BOOL _loading;
     WKWebViewConfiguration *_configuration;
@@ -72,8 +71,6 @@ static NSUInteger const kContainerViewTag = 0x893147;
         self.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
-    [self setDrawInWebThread];
-    
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityView.hidesWhenStopped = YES;
     
@@ -101,27 +98,11 @@ static NSUInteger const kContainerViewTag = 0x893147;
     [super setBounds:bounds];
 }
 
-- (void)setDrawInWebThread{
-    if([self respondsToSelector:NSSelectorFromString(DRAW_IN_WEB_THREAD)])
-        (DRAW_IN_WEB_THREAD__PROTO objc_msgSend)(self,NSSelectorFromString(DRAW_IN_WEB_THREAD),YES);
-    if([self respondsToSelector:NSSelectorFromString(DRAW_CHECKERED_PATTERN)])
-        (DRAW_CHECKERED_PATTERN__PROTO objc_msgSend)(self, NSSelectorFromString(DRAW_CHECKERED_PATTERN),YES);
-}
-
 - (NSString *)mainFURL{
     NSAssert([NSThread isMainThread], @"method should called in main thread");
     
     WKWebView *webView = [self webView];
     return [[webView URL] absoluteString];
-    if(webView)
-    {
-        if([webView respondsToSelector:NSSelectorFromString(MAIN_FRAME_URL)])
-            return [[(MAIN_FRAME_URL__PROTO objc_msgSend)(webView, NSSelectorFromString(MAIN_FRAME_URL)) retain] autorelease];
-        else
-            return nil;
-    }
-    else
-        return nil;
 }
 
 - (NSString *)mainFTitle
@@ -130,15 +111,6 @@ static NSUInteger const kContainerViewTag = 0x893147;
     
     WKWebView *webView = [self webView];
     return [webView title];
-    if(webView)
-    {
-        if([webView respondsToSelector:NSSelectorFromString(MAIN_FRAME_TITLE)])
-            return [[(MAIN_FRAME_TITLE__PROTO objc_msgSend)(webView, NSSelectorFromString(MAIN_FRAME_TITLE)) retain] autorelease];
-        else
-            return nil;
-    }
-    else
-        return nil;
 }
 
 - (void)webViewBackForwardListWithCompletion:(BackForwardListCompletion)completion{
@@ -148,7 +120,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
     
     WebViewBackForwardList *list = nil;
     
-    if (webView && [webView respondsToSelector:NSSelectorFromString(BACK_FORWARD_LIST)]) {
+    if (webView ) {
         WKBackForwardList *backForwardList = nil;
         
         backForwardList = webView.backForwardList;
@@ -174,14 +146,11 @@ static NSUInteger const kContainerViewTag = 0x893147;
     if (items && items.count > 0) {
         NSMutableArray<WebViewHistoryItem *> *historyItems = [NSMutableArray arrayWithCapacity:items.count];
         [items enumerateObjectsUsingBlock:^(id item, NSUInteger idx, BOOL *stop){
-            if ([item respondsToSelector:NSSelectorFromString(URL_TITLE)] && [item respondsToSelector:NSSelectorFromString(URL_STRING)]) {
-                @autoreleasepool {
-                    id urlString = [[(URL_STRING__PROTO objc_msgSend)(item, NSSelectorFromString(URL_STRING)) retain] autorelease];
-                    id title = [[(URL_TITLE__PROTO objc_msgSend)(item, NSSelectorFromString(URL_TITLE)) retain] autorelease];
-                    WebViewHistoryItem *hisItem = [[WebViewHistoryItem alloc] initWithURLString:urlString title:title];
-                    [historyItems addObject:hisItem];
-                    [hisItem release];
-                }
+            WKBackForwardListItem *backForwardListItem = item;
+            @autoreleasepool {
+                WebViewHistoryItem *hisItem = [[WebViewHistoryItem alloc] initWithURLString:[backForwardListItem.URL absoluteString] title:[backForwardListItem title]];
+                [historyItems addObject:hisItem];
+                [hisItem release];
             }
         }];
         return historyItems;
@@ -189,50 +158,10 @@ static NSUInteger const kContainerViewTag = 0x893147;
     return nil;
 }
 
-// get mainFrame
-- (id)mainFrameWithWebView:(id)webView{
-    if([webView respondsToSelector:NSSelectorFromString(MAIN_FRAME)])
-    {
-        id mainFrame = [[(MAIN_FRAME__PROTO objc_msgSend)(webView,NSSelectorFromString(MAIN_FRAME)) retain] autorelease];
-        return mainFrame;
-        
-    }
-    return nil;
-}
-
 // get WebView
 - (id)webView{
-    id webDocumentView = nil;
-    id webView = nil;
     id selfid = self;
     return selfid;
-    if([selfid respondsToSelector:NSSelectorFromString(DOCUMENT_VIEW)]){
-        webDocumentView = [[(DOCUMENT_VIEW__PROTO objc_msgSend)(selfid,NSSelectorFromString(DOCUMENT_VIEW)) retain] autorelease];
-    }
-    else{
-        return nil;
-    }
-    
-    if(webDocumentView)
-    {
-        //也可以使用valueForKey来获取,object_getInstanceVariable方法只能在MRC下执行
-        object_getInstanceVariable(webDocumentView,[GOT_WEB_VIEW cStringUsingEncoding:NSUTF8StringEncoding], (void**)&webView);
-        [[webView retain] autorelease];
-    }
-    else{
-        return nil;
-    }
-    
-    if(webDocumentView)
-    {
-        object_getInstanceVariable(webDocumentView,[GOT_WEB_VIEW cStringUsingEncoding:NSUTF8StringEncoding], (void**)&webView);
-        [[webView retain] autorelease];
-    }
-    else{
-        return nil;
-    }
-    
-    return webView;
 }
 - (UILabel *)backgroundLabel
 {
@@ -277,7 +206,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
 }
 - (void)didStartLoad
 {
-    self.backgroundLabel.text = @"Loading";
+    self.backgroundLabel.text = @"加载中...";
 //    self.navigationItem.title = LYWebViewControllerLocalizedString(@"loading", @"Loading");
 //    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 //    if (self.navigationType == LYWebViewControllerNavigationBarItem) {
@@ -324,7 +253,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
         [self loadURL:URL];
     }
 
-    self.backgroundLabel.text = [NSString stringWithFormat:@"%@%@",@"加载失败" , error.localizedDescription];
+    self.backgroundLabel.text = @"";
 //    self.navigationItem.title = LYWebViewControllerLocalizedString(@"load failed", nil);
 //    if (self.navigationType == LYWebViewControllerNavigationBarItem) {
 //        [self updateNavigationItems];
@@ -332,11 +261,12 @@ static NSUInteger const kContainerViewTag = 0x893147;
 //    if (self.navigationType == LYWebViewControllerNavigationToolItem) {
 //        [self updateToolbarItems];
 //    }
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 //    if (self.delegate && [self.delegate respondsToSelector:@selector(didFailLoadWithError:)]) {
 //        [self.delegate didFailLoadWithError:error];
 //    }
-//    [self.progressView setProgress:0.9 animated:YES];
+    [[DelegateManager sharedInstance] performSelector:@selector(webView:didFailLoadWithError:) arguments:@[self,error] key:kDelegateManagerWebView];
+    [self.progressView setProgress:0.9 animated:YES];
 }
 
 #pragma mark - WKUIDelegate
@@ -436,7 +366,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     // URL actions for 404 and Errors:
     if ([navigationAction.request.URL.absoluteString rangeOfString:kLY404NotFoundURLKey].location != NSNotFound || [navigationAction.request.URL.absoluteString rangeOfString:kLYNetworkErrorURLKey].location != NSNotFound) {
-        decisionHandler(WKNavigationActionPolicyAllow);
+        decisionHandler(WKNavigationActionPolicyCancel);
         return;
     }
     
@@ -497,11 +427,6 @@ static NSUInteger const kContainerViewTag = 0x893147;
             }
         }
     }
-//    if ([components.URL.absoluteString isEqualToString:DEFAULT_CARD_CELL_URL]) {
-//        [self webViewForMainFrameDidFinishLoad:self];
-//        decisionHandler(WKNavigationActionPolicyCancel);
-//        return;
-//    }
     // Call the decision handler to allow to load web page.
     decisionHandler(WKNavigationActionPolicyAllow);
 }

@@ -35,7 +35,6 @@ typedef void(^SwitchOperationBlock)(WebModel *preWebModel, WebModel *curWebModel
 @property (nonatomic, weak) BrowserContainerView *browserContainerView;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS_HEADER(TabManager)
-- (void)setMultiWebViewOperationBlockWith:(MultiWebViewOperationBlock)block;
 - (void)setCurWebViewOperationBlockWith:(CurWebViewOperationBlock)block;
 - (void)switchToLeftWindowWithCompletion:(SwitchOperationBlock)block;
 - (void)switchToRightWindowWithCompletion:(SwitchOperationBlock)block;

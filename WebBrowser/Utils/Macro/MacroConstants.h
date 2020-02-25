@@ -15,15 +15,11 @@
 #define TOP_TOOL_BAR_HEIGHT 70
 #define TOP_TOOL_BAR_THRESHOLD 45
 
-#define Card_Cell_Close_Width 50
-#define Card_Cell_Close_Height 50
 
 #define TEXT_FIELD_PLACEHOLDER   @"搜索或输入网址"
 
 #define BAIDU_SEARCH_URL @"https://m.baidu.com/s?word=%@&ie=utf-8"
 
-#define DEFAULT_IMAGE @"default"
-#define DEFAULT_CARD_CELL_IMAGE @"baidu"
 #define DEFAULT_CARD_CELL_URL   @"about:homepage"
 #define DEFAULT_CARD_CELL_TITLE @"百度一下"
 
