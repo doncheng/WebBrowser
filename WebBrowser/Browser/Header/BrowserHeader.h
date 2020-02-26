@@ -2,8 +2,8 @@
 //  BrowserHeader.h
 //  WebBrowser
 //
-//  Created by 钟武 on 2016/10/13.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 2016/10/13.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #ifndef BrowserHeader_h

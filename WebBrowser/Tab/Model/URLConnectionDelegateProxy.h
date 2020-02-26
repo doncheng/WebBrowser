@@ -2,8 +2,8 @@
 //  URLConnectionDelegateProxy.h
 //  WebBrowser
 //
-//  Created by 钟武 on 2017/10/31.
-//  Copyright © 2017年 钟武. All rights reserved.
+//  Created by kkyun.com on 2017/10/31.
+//  Copyright © 2017年 kkyun.com. All rights reserved.
 //
 
 typedef void(^SuccessBlock)(void);

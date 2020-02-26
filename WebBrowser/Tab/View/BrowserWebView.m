@@ -2,8 +2,8 @@
 //  BrowserWebView.m
 //  WebBrowser
 //
-//  Created by 钟武 on 2016/10/4.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 2016/10/4.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #import "BrowserWebView.h"
@@ -30,8 +30,6 @@
 static NSString *const kLY404NotFoundURLKey = @"html.bundle/404.html";
 /// URL key for network error page.
 static NSString *const kLYNetworkErrorURLKey = @"html.bundle/neterror.html";
-/// Tag value for container view.
-static NSUInteger const kContainerViewTag = 0x893147;
 
 @interface BrowserWebView () <MenuHelperInterface,SKStoreProductViewControllerDelegate>
 {
@@ -281,7 +279,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
 }
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
 - (void)webViewDidClose:(WKWebView *)webView {
-    
+
 }
 #endif
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
@@ -302,7 +300,7 @@ static NSUInteger const kContainerViewTag = 0x893147;
             completionHandler();
         }
     }];
-    
+
     // Add actions.
     [alert addAction:cancelAction];
     [alert addAction:okAction];

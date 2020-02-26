@@ -2,8 +2,8 @@
 //  BrowserBottomToolBarHeader.h
 //  WebBrowser
 //
-//  Created by 钟武 on 2016/11/6.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 2016/11/6.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #ifndef BrowserBottomToolBarHeader_h

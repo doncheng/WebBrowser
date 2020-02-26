@@ -2,8 +2,8 @@
 //  HttpHelper.m
 //  WebBrowser
 //
-//  Created by 钟武 on 2016/11/10.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 2016/11/10.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #import "HttpHelper.h"

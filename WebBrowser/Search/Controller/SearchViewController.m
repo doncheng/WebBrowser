@@ -2,8 +2,8 @@
 //  SearchViewController.m
 //  WebBrowser
 //
-//  Created by 钟武 on 2016/12/27.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 2016/12/27.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #import "SearchViewController.h"

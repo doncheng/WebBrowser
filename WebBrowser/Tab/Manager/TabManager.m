@@ -2,8 +2,8 @@
 //  TabManager.m
 //  WebBrowser
 //
-//  Created by 钟武 on 16/7/30.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 16/7/30.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #import "TabManager.h"
@@ -88,7 +88,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TabManager)
         _filePath = [DocumentPath stringByAppendingPathComponent:MULTI_WINDOW_FILE_NAME];
         _imagesFolderPath = [DocumentPath stringByAppendingPathComponent:MULTI_WINDOW_IMAGE_FOLDER];
         
-        NSString *queueName = [NSString stringWithFormat:@"com.zhongwu.TabManager-%@", [[NSUUID UUID] UUIDString]];
+        NSString *queueName = [NSString stringWithFormat:@"com.kkyun.TabManager-%@", [[NSUUID UUID] UUIDString]];
         _synchQueue = dispatch_queue_create([queueName cStringUsingEncoding:NSASCIIStringEncoding], DISPATCH_QUEUE_SERIAL);
         dispatch_queue_set_specific(_synchQueue, kDispatchQueueSpecificKey, (__bridge void *)self, NULL);
         

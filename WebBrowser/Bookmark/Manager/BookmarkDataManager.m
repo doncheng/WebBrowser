@@ -2,8 +2,8 @@
 //  BookmarkDataManager.m
 //  WebBrowser
 //
-//  Created by 钟武 on 2017/4/25.
-//  Copyright © 2017年 钟武. All rights reserved.
+//  Created by kkyun.com on 2017/4/25.
+//  Copyright © 2017年 kkyun.com. All rights reserved.
 //
 
 #import "BookmarkDataManager.h"
@@ -38,7 +38,7 @@ static const void * const kDispatchQueueSpecificKey = &kDispatchQueueSpecificKey
 
 - (instancetype)initWithCompletion:(BookmarkDataInitCompletion)completion{
     if (self = [super init]) {
-        NSString *queueName = [NSString stringWithFormat:@"com.zhongwu.Bookmark-%@", [[NSUUID UUID] UUIDString]];
+        NSString *queueName = [NSString stringWithFormat:@"com.kkyun.Bookmark-%@", [[NSUUID UUID] UUIDString]];
         _syncQueue = dispatch_queue_create([queueName cStringUsingEncoding:NSASCIIStringEncoding], DISPATCH_QUEUE_SERIAL);
         dispatch_queue_set_specific(_syncQueue, kDispatchQueueSpecificKey, (__bridge void *)self, NULL);
         _filePath = [DocumentPath stringByAppendingPathComponent:kBookmarkPlistFileName];

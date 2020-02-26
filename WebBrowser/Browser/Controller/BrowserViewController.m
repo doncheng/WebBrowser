@@ -2,8 +2,8 @@
 //  BrowserViewController.m
 //  WebBrowser
 //
-//  Created by 钟武 on 16/7/30.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 16/7/30.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #import <StoreKit/StoreKit.h>

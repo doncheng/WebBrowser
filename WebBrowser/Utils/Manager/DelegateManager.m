@@ -2,8 +2,8 @@
 //  DelegateManager.m
 //  WebBrowser
 //
-//  Created by 钟武 on 2017/1/1.
-//  Copyright © 2017年 钟武. All rights reserved.
+//  Created by kkyun.com on 2017/1/1.
+//  Copyright © 2017年 kkyun.com. All rights reserved.
 //
 
 #import "DelegateManager.h"
@@ -28,7 +28,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DelegateManager)
 
 - (instancetype)init{
     if (self = [super init]) {
-        NSString *queueName = [NSString stringWithFormat:@"com.zhongwu.delegateManager-%@", [[NSUUID UUID] UUIDString]];
+        NSString *queueName = [NSString stringWithFormat:@"com.kkyun.delegateManager-%@", [[NSUUID UUID] UUIDString]];
         _synchronizationQueue = dispatch_queue_create([queueName cStringUsingEncoding:NSASCIIStringEncoding], DISPATCH_QUEUE_SERIAL);
     }
     return self;

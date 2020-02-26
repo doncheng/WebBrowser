@@ -2,8 +2,8 @@
 //  TopToolBarShapeView.m
 //  WebBrowser
 //
-//  Created by 钟武 on 2016/10/12.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 2016/10/12.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #import "TopToolBarShapeView.h"

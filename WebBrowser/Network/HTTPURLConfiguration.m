@@ -2,8 +2,8 @@
 //  HTTPURLConfiguration.m
 //  ZhihuDaily
 //
-//  Created by 钟武 on 16/8/3.
-//  Copyright © 2016年 钟武. All rights reserved.
+//  Created by kkyun.com on 16/8/3.
+//  Copyright © 2016年 kkyun.com. All rights reserved.
 //
 
 #import "HTTPURLConfiguration.h"
